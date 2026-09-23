@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "components": [
+    {
+      "component_id": "nexus.github.module_library",
+      "type": "ui_area",
+      "frontend_files": [
+        "core/http/react-ui/src/pages/AngelNexus.jsx"
+      ],
+      "backend_files": [
+        "nexus-service/server.py"
+      ],
+      "related_capabilities": [
+        "github_catalog",
+        "module_installation"
+      ]
+    },
+    {
+      "component_id": "nexus.change_control",
+      "type": "service",
+      "files": [
+        "nexus-service/patch_engine.py"
+      ],
+      "related_capabilities": [
+        "safe_points",
+        "validation",
+        "rollback"
+      ]
+    }
+  ]
+}
