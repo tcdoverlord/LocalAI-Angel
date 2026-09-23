@@ -132,6 +132,10 @@ const Usage = page('usage', () => import('./pages/Usage'))
 const Users = page('users', () => import('./pages/Users'))
 const Middleware = page('middleware', () => import('./pages/Middleware'))
 const Account = page('account', () => import('./pages/Account'))
+const AngelNexus = page(
+  'angel-nexus',
+  () => import('./pages/AngelNexus')
+)
 
 import ConsoleLayout from './components/console/ConsoleLayout'
 import { buildConsole, operateConsole } from './components/console/consoleConfig'
@@ -172,6 +176,7 @@ const appChildren = [
   { path: 'studio/:tab', element: <Studio /> },
   { path: 'talk', element: <Talk /> },
   { path: 'account', element: <Account /> },
+  { path: 'angel-nexus', element: <AngelNexus /> },
 
   // Build console — Automation, Training, and Recognition groups share one rail.
   // Only the section landing pages live under the rail; deep create/edit/chat

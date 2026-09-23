@@ -1,0 +1,140 @@
+import { useEffect, useMemo, useState } from 'react'
+import PageHeader from '../components/PageHeader'
+
+const NEXUS_API = 'http://localhost:8765'
+
+export default function AngelNexus() {
+  const [modules, setModules] = useState([])
+  const [query, setQuery] = useState('')
+  const [category, setCategory] = useState('All')
+  const [busyId, setBusyId] = useState('')
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  const loadModules = async () => {
+    setError('')
+    try {
+      const response = await fetch(`${NEXUS_API}/api/modules`)
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const data = await response.json()
+      setModules(Array.isArray(data.modules) ? data.modules : [])
+    } catch (err) {
+      setError(`Nexus service unavailable: ${err.message}`)
+    }
+  }
+
+  useEffect(() => {
+    loadModules()
+  }, [])
+
+  const categories = useMemo(
+    () => ['All', ...new Set(modules.map((module) => module.category).filter(Boolean))],
+    [modules]
+  )
+
+  const visibleModules = useMemo(() => {
+    const normalized = query.trim().toLowerCase()
+    return modules.filter((module) => {
+      const matchesCategory = category === 'All' || module.category === category
+      const haystack = `${module.name} ${module.repo} ${module.description}`.toLowerCase()
+      return matchesCategory && (!normalized || haystack.includes(normalized))
+    })
+  }, [modules, query, category])
+
+  const installModule = async (module) => {
+    setBusyId(module.id)
+    setMessage('')
+    setError('')
+    try {
+      const response = await fetch(`${NEXUS_API}/api/modules/install`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: module.id }),
+      })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`)
+      setMessage(data.message || 'Module installed.')
+      await loadModules()
+    } catch (err) {
+      setError(`Install failed: ${err.message}`)
+    } finally {
+      setBusyId('')
+    }
+  }
+
+  return (
+    <div className="page page--wide">
+      <PageHeader
+        eyebrow="Angel Nexus"
+        title="Module Manager"
+        supporting="Discover and install approved GitHub modules into the LocalAI Nexus workspace."
+      />
+
+      <div className="form-row">
+        <div className="form-row__label">
+          <span className="form-row__label-text">Search modules</span>
+          <span className="page-subtitle">Find by name, repository, or description.</span>
+        </div>
+        <input
+          className="input"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Search GitHub modules..."
+        />
+      </div>
+
+      <div className="form-row">
+        <div className="form-row__label">
+          <span className="form-row__label-text">Category</span>
+        </div>
+        <select
+          className="input"
+          value={category}
+          onChange={(event) => setCategory(event.target.value)}
+        >
+          {categories.map((item) => <option key={item} value={item}>{item}</option>)}
+        </select>
+      </div>
+
+      {message && <div className="card card--accent"><strong>{message}</strong></div>}
+      {error && <div className="card"><strong>{error}</strong><p className="page-subtitle">Confirm the Nexus service is running on port 8765.</p></div>}
+
+      <div className="card-grid">
+        {visibleModules.map((module) => (
+          <section className="card" key={module.id}>
+            <div className="section-heading">
+              <i className="fas fa-cubes" aria-hidden="true" /> {module.name}
+            </div>
+            <p className="page-subtitle">{module.description}</p>
+            <p><strong>Category:</strong> {module.category}</p>
+            <p><strong>Repository:</strong> {module.repo}</p>
+            <p><strong>Status:</strong> {module.installed ? 'Installed' : 'Not installed'}</p>
+            <div className="form-row">
+              <a
+                className="btn btn-secondary"
+                href={`https://github.com/${module.repo}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub
+              </a>
+              <button
+                className="btn btn-primary"
+                disabled={busyId === module.id}
+                onClick={() => installModule(module)}
+              >
+                {busyId === module.id ? 'Working...' : module.installed ? 'Update' : 'Install'}
+              </button>
+            </div>
+          </section>
+        ))}
+      </div>
+
+      {!visibleModules.length && (
+        <div className="card">
+          <strong>No modules match your search.</strong>
+        </div>
+      )}
+    </div>
+  )
+}

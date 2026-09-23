@@ -16,6 +16,11 @@ const SECTIONS_KEY = 'localai_sidebar_sections'
 const topItems = [
   { path: '/app', icon: 'fas fa-home', labelKey: 'items.home' },
   { path: '/app/models', icon: 'fas fa-cubes', labelKey: 'items.models', adminOnly: true },
+  {
+    path: '/app/angel-nexus',
+    icon: 'fas fa-network-wired',
+    labelOverride: 'Angel Nexus',
+  },
 ]
 
 // Create stays inline (frequent, one-click creative destinations). The Build
@@ -35,7 +40,7 @@ const sections = [
 
 function NavItem({ item, onClose, collapsed }) {
   const { t } = useTranslation('nav')
-  const label = t(item.labelKey)
+  const label = item.labelOverride || t(item.labelKey)
   // Warm the route's lazy chunk before the user clicks. Touch fires ~150ms
   // before the synthetic click on mobile; mouseenter/focus cover desktop and
   // keyboard. The underlying import() is memoised so multiple triggers are free.

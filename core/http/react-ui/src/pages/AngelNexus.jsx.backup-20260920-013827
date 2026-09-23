@@ -1,0 +1,88 @@
+import { useState } from 'react'
+import PageHeader from '../components/PageHeader'
+
+const INITIAL_MODULES = [
+  {
+    id: 'system-tools',
+    name: 'System Tools',
+    description: 'System administration and maintenance utilities.',
+    icon: 'fas fa-server',
+    installed: false,
+    enabled: false,
+  },
+  {
+    id: 'backup-recovery',
+    name: 'Backup & Recovery',
+    description: 'Backup management and recovery operations.',
+    icon: 'fas fa-database',
+    installed: false,
+    enabled: false,
+  },
+  {
+    id: 'creator-tools',
+    name: 'Creator Tools',
+    description: 'OBS, streaming, and creator workflow utilities.',
+    icon: 'fas fa-video',
+    installed: false,
+    enabled: false,
+  },
+]
+
+export default function AngelNexus() {
+  const [modules, setModules] = useState(INITIAL_MODULES)
+
+  const toggleModule = (id) => {
+    setModules((current) =>
+      current.map((module) =>
+        module.id === id
+          ? { ...module, enabled: !module.enabled }
+          : module
+      )
+    )
+  }
+
+  return (
+    <div className="page page--wide">
+      <PageHeader
+        eyebrow="Angel Nexus"
+        title="Module Manager"
+        supporting="Manage optional Angel Nexus modules within your LocalAI workspace."
+      />
+
+      <div className="card-grid">
+        {modules.map((module) => (
+          <section className="card" key={module.id}>
+            <div className="section-heading">
+              <i className={module.icon} aria-hidden="true" />
+              {' '}{module.name}
+            </div>
+
+            <p className="page-subtitle">
+              {module.description}
+            </p>
+
+            <div className="form-row">
+              <div className="form-row__label">
+                <span className="form-row__label-text">
+                  Status
+                </span>
+                <span className="page-subtitle">
+                  {module.enabled ? 'Enabled' : 'Disabled'}
+                </span>
+              </div>
+
+              <button
+                className={`btn ${
+                  module.enabled ? 'btn-primary' : 'btn-secondary'
+                }`}
+                onClick={() => toggleModule(module.id)}
+              >
+                {module.enabled ? 'Disable' : 'Enable'}
+              </button>
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  )
+}
