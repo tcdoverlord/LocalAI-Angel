@@ -1,0 +1,22 @@
+{
+  "patch_id": "NX-EXAMPLE-0001",
+  "title": "Example: Fix one UI label",
+  "description": "Demonstrates a narrowly scoped exact-match patch.",
+  "target_component": "nexus.example.component",
+  "changes": [
+    {
+      "operation": "replace_exact",
+      "file": "path/to/file.jsx",
+      "expected": "Old text",
+      "replacement": "New text"
+    }
+  ],
+  "validation_profiles": [
+    "git_diff_check"
+  ],
+  "policy": {
+    "create_safe_point": true,
+    "auto_rollback_on_failure": true,
+    "require_review_before_commit": true
+  }
+}

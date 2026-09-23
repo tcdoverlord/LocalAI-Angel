@@ -1,0 +1,16 @@
+services:
+  nexus:
+    build:
+      context: ./nexus-service
+      dockerfile: Dockerfile
+    container_name: angel-nexus-service
+    ports:
+      - "8877:8877"
+    volumes:
+      - ./nexus-data:/data
+      - ./:/workspace
+    environment:
+      NEXUS_DATA_ROOT: /data
+      NEXUS_PORT: "8877"
+      NEXUS_TARGET_ROOT: /workspace
+    restart: unless-stopped

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Angel Nexus Patch Manifest",
+  "type": "object",
+  "required": ["patch_id", "title", "changes"],
+  "properties": {
+    "patch_id": {"type": "string", "pattern": "^NX-[A-Za-z0-9._-]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "description": {"type": "string"},
+    "target_component": {"type": "string"},
+    "changes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["operation", "file"],
+        "properties": {
+          "operation": {"enum": ["replace_exact", "append_file", "create_file"]},
+          "file": {"type": "string"},
+          "expected": {"type": "string"},
+          "replacement": {"type": "string"},
+          "content": {"type": "string"}
+        }
+      }
+    },
+    "validation_profiles": {
+      "type": "array",
+      "items": {"enum": ["python_compile", "git_diff_check", "frontend_lint", "frontend_build"]}
+    }
+  }
+}
