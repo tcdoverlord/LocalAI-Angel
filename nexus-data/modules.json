@@ -7,8 +7,44 @@
     "clone_url": "https://github.com/tcdoverlord/GenericQuizTemplate.git",
     "description": "User-added GitHub repository.",
     "folder": "GenericQuizTemplate",
-    "installed": false,
-    "installed_path": "",
-    "updated_at": "2026-09-20T06:02:19.454986+00:00"
+    "installed": true,
+    "installed_path": "/data/git/GenericQuizTemplate",
+    "updated_at": "2026-09-25T17:41:43.673549+00:00"
+  },
+  {
+    "id": "tcdoverlord-cidr-block-ip-calculator",
+    "name": "Cidr Block Ip Calculator",
+    "category": "Custom",
+    "repo": "tcdoverlord/CIDR-Block-IP-Calculator",
+    "clone_url": "https://github.com/tcdoverlord/CIDR-Block-IP-Calculator.git",
+    "description": "User-added GitHub repository.",
+    "folder": "CIDR-Block-IP-Calculator",
+    "installed": true,
+    "installed_path": "/data/git/CIDR-Block-IP-Calculator",
+    "updated_at": "2026-09-25T17:59:21.513540+00:00"
+  },
+  {
+    "id": "tcdoverlord-color-coded-vm-recovery",
+    "name": "Color Coded Vm Recovery",
+    "category": "Custom",
+    "repo": "tcdoverlord/color-coded-vm-recovery",
+    "clone_url": "https://github.com/tcdoverlord/color-coded-vm-recovery.git",
+    "description": "User-added GitHub repository.",
+    "folder": "color-coded-vm-recovery",
+    "installed": true,
+    "installed_path": "/data/git/color-coded-vm-recovery",
+    "updated_at": "2026-09-25T17:45:31.420656+00:00"
+  },
+  {
+    "id": "tcdoverlord-256-bit-password-generator",
+    "name": "256 Bit Password Generator",
+    "category": "Custom",
+    "repo": "tcdoverlord/256-Bit-Password-Generator",
+    "clone_url": "https://github.com/tcdoverlord/256-Bit-Password-Generator.git",
+    "description": "User-added GitHub repository.",
+    "folder": "256-Bit-Password-Generator",
+    "installed": true,
+    "installed_path": "/data/git/256-Bit-Password-Generator",
+    "updated_at": "2026-09-25T18:08:16.006252+00:00"
   }
 ]

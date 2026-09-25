@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 
-const NEXUS_API = (import.meta.env.VITE_NEXUS_API_URL || 'http://localhost:8877').replace(/\/$/, '')
+const NEXUS_API = (import.meta.env.VITE_NEXUS_API_URL || '/api/angel-nexus').replace(/\/$/, '')
 const REQUEST_TIMEOUT_MS = 10000
 
 async function nexusFetch(path, options = {}) {
