@@ -351,6 +351,8 @@ func API(application *application.Application) (*echo.Echo, error) {
 
 	// Health Checks should always be exempt from auth, so register these first
 	routes.HealthRoutes(e, application.Ready)
+	// Angel Nexus proxy: expose Nexus through LocalAI so the browser only talks to port 8080.
+	routes.RegisterAngelNexusRoutes(e)
 
 	// Build auth middleware: use the new auth.Middleware when auth is enabled or
 	// as a unified replacement for the legacy key-auth middleware.

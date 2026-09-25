@@ -19,6 +19,7 @@ services:
     environment:
       - MODELS_PATH=/models
       - LOCALAI_VRAM_WARM_LIMIT=0
+      - ANGEL_NEXUS_INTERNAL_URL=http://nexus:8877
 
     # LocalAI agent settings
     # - LOCALAI_DISABLE_AGENTS=false
