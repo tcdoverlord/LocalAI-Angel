@@ -1,0 +1,20 @@
+{
+  "package": "LocalAI-Angel-FINAL-WORKING-LAUNCHER",
+  "baseline": "LocalAI-Angel-Self-Contained-Launcher-CONTAINER-RECOVERY.zip",
+  "verification": {
+    "stale container inspection": true,
+    "Compose project inspection": true,
+    "Compose service inspection": true,
+    "stale container removal": true,
+    "forced rebuild removed": true,
+    "proven startup command": true,
+    "LocalAI health check": true,
+    "Nexus health check": true
+  },
+  "files": {
+    "DIAGNOSE_ANGEL.bat": "b10e2cec73477ce0e3d9986e3e413a87b5cae0c742d2477784ba4bc0c75d792c",
+    "README-LAUNCHER.txt": "9a83f91346fa753a7e06e36112510ec61dc5c0c28e9a95390855942b64b3a8e5",
+    "START_ANGEL.bat": "6c0f8c3bc27679a01737c4b397cb4242c91acb3256553487cbc4da6284ba26be",
+    "STOP_ANGEL.bat": "bc71e95e26cb5262df3400be84be54a1e57bccb1da46313f8b2bfe9de8f36286"
+  }
+}
