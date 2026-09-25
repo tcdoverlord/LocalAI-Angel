@@ -21,7 +21,43 @@ AI • Repositories • Modules • Knowledge • Workspace
 > Angel provides the experience.
 >
 > Nexus provides the coordination.
+## Installation & Operations
 
+LocalAI-Angel uses a customized installation and operating workflow that differs from the standard upstream LocalAI installation.
+
+The project includes:
+
+- Docker Compose integration for LocalAI and Angel Nexus
+- Angel Nexus service and module management
+- Windows easy-start and easy-stop launchers
+- Diagnostic tooling
+- LocalAI → Angel Nexus API proxy
+- Persistent Nexus data
+- GitHub/community module integration
+
+### Installation Guide
+
+For the complete LocalAI-Angel installation, startup, shutdown, Docker, troubleshooting, and operations instructions, see:
+
+**[LocalAI-Angel Installation & Operations Guide](notes/INSTALLATION-INSTRUCTIONS-ANGEL.md)**
+
+The guide covers:
+
+- Windows requirements
+- Docker Desktop setup
+- First-time Docker startup
+- `START_ANGEL.bat`
+- `STOP_ANGEL.bat`
+- `DIAGNOSE_ANGEL.bat`
+- LocalAI and Angel Nexus health checks
+- Docker commands
+- Module installation and updates
+- GitHub integration
+- Persistent Nexus data
+- Troubleshooting
+- Backup and recovery practices
+
+> **Note:** This guide is specific to the LocalAI-Angel build. For the complete upstream LocalAI documentation, see the [official LocalAI repository](https://github.com/mudler/LocalAI).
 ---
 
 ## Table of Contents
