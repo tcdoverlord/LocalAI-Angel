@@ -23,6 +23,11 @@ concurrency:
 jobs:
   tests:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
     env:
       GO111MODULE: on
     steps:
