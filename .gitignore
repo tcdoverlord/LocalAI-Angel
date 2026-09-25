@@ -30,3 +30,7 @@ runtime/
 .DS_Store
 Thumbs.db
 .vscode/
+
+notes/backups/
+notes/bug_fixes/
+nexus-data/git/
