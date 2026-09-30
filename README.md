@@ -1,7 +1,7 @@
 <h1 align="center">
   <br>
-  <img width="300" src="./core/http/static/logo.png"> <br>
-<br>
+  <img width="300" src="./core/http/static/logo.png" alt="LocalAI-Angel">
+  <br><br>
 </h1>
 
 <h1 align="center">LOCALAI-ANGEL</h1>
@@ -24,37 +24,25 @@ AI • Repositories • Modules • Knowledge • Workspace
 
 ---
 
-## Table of Contents
+## 🚀 See It In Action
 
-- [Why I Built This](#why-i-built-this)
-- [What Is LocalAI-Angel?](#what-is-localai-angel)
-- [What Is Angel Nexus?](#what-is-angel-nexus)
-- [Current Features](#current-features)
-  - [Angel Nexus Workspace](#angel-nexus-workspace)
-  - [GitHub Integration](#github-integration)
-  - [Easy Windows Operations](#easy-windows-operations)
-- [Knowledge System Vision](#knowledge-system-vision)
-- [Knowledge With Provenance](#knowledge-with-provenance)
-- [Future Development Goals](#future-development-goals)
-- [Relationship To LocalAI](#relationship-to-localai)
-- [Philosophy](#philosophy)
-- [Development Status](#development-status)
-- [Credits](#credits)
-- [License & Attribution](#license--attribution)
+<p align="center">
+  <img src="./assets/localaiangelvid.gif" alt="LocalAI-Angel demonstration" width="100%">
+</p>
+
+<p align="center">
+<strong>LocalAI-Angel running with the Angel Nexus workspace and integrated development tooling.</strong>
+</p>
 
 ---
 
 ## Why I Built This
 
-I started with LocalAI because it provides one of the most powerful open-source foundations for running AI locally.
+I started with LocalAI because it provides a powerful open-source foundation for running AI locally.
 
-LocalAI-Angel is my attempt to build the layer that sits above that foundation.
+LocalAI-Angel is my independent development effort to build the layer above that foundation: a connected workspace where AI, repositories, modules, tools, services, workflows, and knowledge can work together.
 
-The vision is not simply to run models.
-
-The vision is to create a connected environment where AI, repositories, modules, tools, services, and knowledge can exist together inside a single workspace.
-
-Instead of constantly switching between applications, documentation, GitHub projects, deployment tools, and AI interfaces, LocalAI-Angel aims to bring those resources together under one roof.
+Instead of constantly switching between AI interfaces, GitHub projects, documentation, deployment tools, and development utilities, LocalAI-Angel aims to bring those resources together in one environment.
 
 ```text
 LOCALAI-ANGEL
@@ -77,9 +65,9 @@ GitHub Modules Knowledge
 
 LocalAI-Angel is an independent development build based on the LocalAI project.
 
-While LocalAI focuses on inference, APIs, agents, hardware acceleration, and model execution, LocalAI-Angel focuses on creating a richer ecosystem around those capabilities.
+LocalAI provides the underlying AI inference platform, APIs, agents, model execution, and backend capabilities. LocalAI-Angel focuses on building an additional ecosystem around those capabilities through Angel Nexus, modular tooling, repository integration, workspace management, and future knowledge systems.
 
-This repository serves as the development home for Angel Nexus and other features designed to make LocalAI easier to work with, easier to expand, and easier to connect with real-world projects.
+This repository is the development home for Angel Nexus and related LocalAI-Angel additions.
 
 ---
 
@@ -87,41 +75,29 @@ This repository serves as the development home for Angel Nexus and other feature
 
 Angel Nexus is the coordination layer behind LocalAI-Angel.
 
-Most users will interact with LocalAI-Angel.
+Nexus connects repositories, modules, tools, services, workflows, and future knowledge systems so they can be managed from one workspace.
 
-Nexus works quietly behind the scenes, connecting repositories, modules, tools, services, workflows, and future knowledge systems.
-
-Think of Nexus as the nervous system of the platform.
-
-Its purpose is to help different parts of the ecosystem communicate, organize, and work together inside one environment.
+Think of Nexus as the coordination system that helps the different parts of the platform communicate and operate together.
 
 ---
 
 ## Current Features
 
-### Angel Nexus Workspace
+### 🧩 Angel Nexus Workspace
 
 - Dedicated Angel Nexus workspace
 - Integrated repository management
 - Module support
-- API integration with LocalAI services
-- Docker and Compose deployment support
+- LocalAI service integration
+- Docker and Docker Compose deployment support
 - Angel-specific interface enhancements
 - Startup and diagnostic utilities
 
-### GitHub Integration
+### 🐙 GitHub Integration
 
-GitHub is a core part of the Angel Nexus vision.
+GitHub is a core part of the Angel Nexus architecture.
 
-Most AI systems treat GitHub as a location where code is stored.
-
-Angel Nexus treats GitHub as part of the workspace itself.
-
-Repositories are more than code.
-
-They contain tools, documentation, modules, knowledge, solutions, and development history.
-
-The goal is to make repositories feel like active components of the ecosystem rather than external resources users must constantly switch between.
+Repositories can contain more than source code. They can also contain tools, modules, documentation, knowledge, workflows, and reusable solutions.
 
 Current capabilities include:
 
@@ -132,9 +108,9 @@ Current capabilities include:
 - Catalog synchronization
 - Workspace integration
 
-Long term, Angel Nexus is being developed toward a future where projects, repositories, documentation, tools, and AI workflows can operate together from a single environment while remaining connected to GitHub.
+The long-term goal is to make repositories active components of an AI development environment rather than resources users must constantly switch away from.
 
-### Easy Windows Operations
+### 🪟 Easy Windows Operations
 
 Start:
 
@@ -160,11 +136,11 @@ The goal is simple:
 
 ---
 
-## Knowledge System Vision
+## 🧠 Knowledge System Vision
 
 A major objective of Angel Nexus is the development of curated and inspectable knowledge.
 
-Rather than relying entirely on model memory, future versions will support knowledge collections built around specific subjects such as:
+Future knowledge collections may be organized around subjects such as:
 
 - GitHub
 - Docker
@@ -175,11 +151,11 @@ Rather than relying entirely on model memory, future versions will support knowl
 - Project architecture
 - Development workflows
 
-The objective is improved grounding, greater transparency, and more reliable answers.
+The objective is stronger grounding, greater transparency, and more reliable answers.
 
 ---
 
-## Knowledge With Provenance
+## 🔎 Knowledge With Provenance
 
 ```text
 Experience
@@ -201,13 +177,13 @@ Revision
 Current Understanding
 ```
 
-Knowledge should be connected to evidence whenever possible.
+Important information should be connected to evidence whenever possible.
 
-The long-term vision is to make important information traceable, reviewable, correctable, and understandable.
+The long-term vision is to make knowledge traceable, reviewable, correctable, and understandable.
 
 ---
 
-## Future Development Goals
+## 🛠️ Future Development Goals
 
 - Curated knowledge packs
 - Advanced repository integration
@@ -228,11 +204,9 @@ These represent future development goals rather than completed functionality.
 
 ## Relationship To LocalAI
 
-LocalAI-Angel would not exist without the incredible work of the LocalAI project and its contributors.
+LocalAI-Angel is based on the open-source LocalAI project and builds additional Angel Nexus functionality around that foundation.
 
-This README focuses only on LocalAI-Angel additions and Angel Nexus development.
-
-For complete LocalAI documentation, installation instructions, supported models, APIs, agents, MCP support, backends, and hardware acceleration, please visit the upstream project:
+For complete LocalAI documentation, installation instructions, supported models, APIs, agents, MCP support, backends, and hardware acceleration, visit:
 
 **LocalAI**
 
@@ -252,7 +226,7 @@ Angel provides the experience.
 
 Nexus provides the coordination.
 
-Together they create a more connected AI ecosystem.
+Together they form a more connected local AI development environment.
 
 ---
 
@@ -268,6 +242,8 @@ LocalAI-Angel is being developed incrementally with an emphasis on:
 - Modularity
 - Knowledge grounding
 - Ecosystem integration
+
+The demonstration above represents the project in active development; features and interfaces may change as the platform evolves.
 
 ---
 
@@ -288,7 +264,7 @@ https://github.com/mudler/LocalAI
 
 ## License & Attribution
 
-LocalAI-Angel is based on the open-source LocalAI project and retains all required upstream licensing and attribution.
+LocalAI-Angel is based on the open-source LocalAI project and retains the applicable upstream licensing and attribution.
 
 Please refer to the LocalAI repository and included license files for original licensing information.
 
