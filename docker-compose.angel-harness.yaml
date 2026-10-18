@@ -1,0 +1,76 @@
+services:
+  angel-harness:
+    image: localai-angel-harness:0.3.0
+    build:
+      context: ./Angel_AI_Harness
+      dockerfile: Dockerfile.unified
+    container_name: angel-ai-harness
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_started
+      nexus:
+        condition: service_started
+      ollama-model-init:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:8765:8765"
+      - "127.0.0.1:8780:8780"
+    environment:
+      ANGEL_HOST: "0.0.0.0"
+      ANGEL_PORT: "8765"
+      ANGEL_ENGINEERING_HOST: "0.0.0.0"
+      ANGEL_ENGINEERING_PORT: "8780"
+      ANGEL_DATA_DIR: "/data"
+      ANGEL_TIMEZONE: "${ANGEL_TIMEZONE:-America/Indiana/Indianapolis}"
+      TZ: "${ANGEL_TIMEZONE:-America/Indiana/Indianapolis}"
+      ANGEL_LLM_PROVIDER: "${ANGEL_LLM_PROVIDER:-localai}"
+      ANGEL_LOCALAI_BASE_URL: "${ANGEL_LOCALAI_BASE_URL:-http://api:8080}"
+      ANGEL_LOCALAI_API_KEY: "${LOCALAI_API_KEY:-}"
+      ANGEL_OLLAMA_BASE_URL: "${ANGEL_OLLAMA_BASE_URL:-http://ollama:11434}"
+      # LocalAI stays primary. If its gallery is empty, Angel uses the
+      # automatically provisioned default model through the Ollama adapter.
+      ANGEL_OLLAMA_FALLBACK: "${ANGEL_OLLAMA_FALLBACK:-true}"
+      ANGEL_DEFAULT_MODEL: "${ANGEL_DEFAULT_MODEL:-qwen2.5:3b}"
+    volumes:
+      - type: bind
+        source: "${ANGEL_USER_DATA:-./Angel_Platform_Data}"
+        target: /data
+        bind:
+          create_host_path: true
+
+  # Angel ships with a default inference model provisioned on first launch.
+  # The model weights are downloaded into a persistent volume, not baked into
+  # the source ZIP, so users do not have to download a huge repository archive.
+  ollama:
+    image: ollama/ollama:latest
+    container_name: angel-ollama-default
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama-models:/root/.ollama
+
+  ollama-model-init:
+    image: ollama/ollama:latest
+    depends_on:
+      - ollama
+    restart: "no"
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      ANGEL_DEFAULT_MODEL: "${ANGEL_DEFAULT_MODEL:-qwen2.5:3b}"
+    entrypoint: ["/bin/sh", "-lc"]
+    command:
+      - >-
+        until ollama list >/dev/null 2>&1; do sleep 2; done;
+        if ollama list | grep -Fq "$${ANGEL_DEFAULT_MODEL}"; then
+          echo "Angel default model $${ANGEL_DEFAULT_MODEL} is already installed.";
+        else
+          echo "Downloading Angel default model $${ANGEL_DEFAULT_MODEL}. This can take several minutes on first launch.";
+          ollama pull "$${ANGEL_DEFAULT_MODEL}";
+        fi
+    volumes:
+      - ollama-models:/root/.ollama
+
+volumes:
+  ollama-models:
