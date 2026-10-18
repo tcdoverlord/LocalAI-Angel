@@ -1,14 +1,14 @@
 <div align="center">
   <img src="./core/http/static/logo.png" alt="LocalAI-Angel logo" width="150">
 
-  # LocalAI-Angel
+  # LocalAI-Angel by TCDOVERLORD
 
   **A ready-to-use Angel AI experience, backed by LocalAI and expanded by Angel Nexus.**
 
   [![Open Source](https://img.shields.io/badge/Open%20Source-Explore%20the%20Code-58a6ff?style=for-the-badge)](https://github.com/tcdoverlord/LocalAI-Angel)
   [![LocalAI](https://img.shields.io/badge/Powered%20by-LocalAI-55d6a0?style=for-the-badge)](https://localai.io/)
 
-  **[🌐 View the Angel AI Website](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/README.html)**
+  **[🌐 Visit the LocalAI-Angel Website](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/README.html)**
 
   [Get Started](#quick-start) · [Architecture Overview](#architecture-overview) · [Angel AI](#angel-ai-the-easy-start) · [Issues](https://github.com/tcdoverlord/LocalAI-Angel/issues)
 </div>
@@ -17,9 +17,11 @@
 
 ## Architecture Overview
 
-[![LocalAI-Angel Architecture Overview](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI%20Angel%20Architecture%20Overview.png?raw=true)](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI%20Angel%20Architecture%20Overview.png)
+<p align="center">
+  <a href="https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png"><img src="assets/LocalAI-Angel%20Architecture%20Overview.png" alt="LocalAI-Angel Architecture Overview" width="100%"></a>
+</p>
 
-**[Open the full-size architecture graphic](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI%20Angel%20Architecture%20Overview.png)**
+**[Open the full-size architecture graphic](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png)**
 
 > **The idea:** start with an AI assistant you can use, then grow into a more capable platform. Angel AI is the welcoming front door; LocalAI provides the model/inference layer; Angel Nexus is the modular tools and integration layer.
 
@@ -66,7 +68,7 @@ Some capabilities may be experimental, hardware-dependent, or still in developme
 
 ## Project links
 
-- [Architecture image](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI%20Angel%20Architecture%20Overview.png)
+- [Architecture image](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png)
 - [Styled website — HTML README](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/README.html)
 - [Browse the repository](https://github.com/tcdoverlord/LocalAI-Angel)
 - [Angel AI Harness](https://github.com/tcdoverlord/LocalAI-Angel/tree/main/Angel_AI_Harness)
