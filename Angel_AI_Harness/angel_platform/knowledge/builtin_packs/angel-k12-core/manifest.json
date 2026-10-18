@@ -1,0 +1,24 @@
+{
+  "name": "Angel K-12 Core Learning Starter",
+  "id": "angel-k12-core",
+  "version": "1.0.0",
+  "author": "Angel AI Unified project",
+  "category": "K-12 Education",
+  "description": "An expandable, locally indexed starter reference covering foundational K-12 learning across core subjects. This is not a complete curriculum or a replacement for teacher-approved materials.",
+  "license": "Original project-authored reference content",
+  "documents": [
+    "k12-learning-overview.md",
+    "mathematics-foundations.md",
+    "language-arts.md",
+    "science-foundations.md",
+    "social-studies-civics.md",
+    "computing-digital-literacy.md",
+    "study-skills-accessibility.md",
+    "teacher-family-guidance.md"
+  ],
+  "retrieval": {
+    "mode": "local-markdown",
+    "automatic_index": true,
+    "source_labels": true
+  }
+}

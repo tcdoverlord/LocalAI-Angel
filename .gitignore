@@ -1,4 +1,4 @@
-﻿# Environment and secrets
+# Environment and secrets
 .env
 .env.*
 !.env.example
@@ -34,3 +34,12 @@ Thumbs.db
 notes/backups/
 notes/bug_fixes/
 nexus-data/git/
+
+# LocalAI-Angel Unified local data / secrets
+.env
+/Angel_Platform_Data/
+/Angel_AI_Harness/.venv/
+/Angel_AI_Harness/.pytest_cache/
+/Angel_AI_Harness/**/__pycache__/
+/Angel_AI_Harness/*.log
+/Angel_AI_Harness/*.pid
