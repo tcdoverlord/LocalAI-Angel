@@ -8,7 +8,7 @@
   [![Open Source](https://img.shields.io/badge/Open%20Source-Explore%20the%20Code-58a6ff?style=for-the-badge)](https://github.com/tcdoverlord/LocalAI-Angel)
   [![LocalAI](https://img.shields.io/badge/Powered%20by-LocalAI-55d6a0?style=for-the-badge)](https://localai.io/)
 
-  **[🌐 Visit the LocalAI-Angel Website](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/README.html)**
+  **[🌐 Visit the LocalAI-Angel Website]([https://github.com/tcdoverlord/LocalAI-Angel/blob/main/README.html](https://tcdoverlord.github.io/LocalAI-Angel/))**
 
   [Get Started](#quick-start) · [Architecture Overview](#architecture-overview) · [Angel AI](#angel-ai-the-easy-start) · [Issues](https://github.com/tcdoverlord/LocalAI-Angel/issues)
 </div>
