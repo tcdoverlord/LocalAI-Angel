@@ -1,7 +1,7 @@
 services:
   api:
     # LocalAI container image
-    image: quay.io/go-skynet/local-ai:master
+    image: localai-angel-unified:0.3.0
 
     build:
       context: .

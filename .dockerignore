@@ -69,3 +69,7 @@ tests
 
 # Installed via npm inside the build stage; no need to ship the host copy.
 **/node_modules
+# Unified product services / user data are built or mounted separately.
+/Angel_AI_Harness
+/Angel_Platform_Data
+/.env
