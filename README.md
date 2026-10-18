@@ -1,69 +1,73 @@
-# LocalAI-Angel Unified 0.3.0 — Harness-integrated home base
+<div align="center">
+  <img src="./core/http/static/logo.png" alt="LocalAI-Angel logo" width="150">
 
-**This is the integrated build, not the earlier placeholder chat runtime.** It keeps the LocalAI-Angel source build (including its Nexus route), launches the existing Angel Nexus repository/module runner, and runs the Angel AI Harness workspace as the main assistant experience.
+  # LocalAI-Angel
 
-## Architecture
+  **A ready-to-use Angel AI experience, backed by LocalAI and expanded by Angel Nexus.**
 
-- **LocalAI fork (`api`)** — inference engine, model gallery, OpenAI-compatible `/v1/chat/completions` API, and the custom React UI containing the Angel Nexus page.
-- **Angel Nexus (`nexus`)** — existing repository/module catalog and controlled prepare/run workflows through LocalAI's `/api/angel-nexus/*` proxy.
-- **Angel AI Harness (`angel-harness`)** — established chat runtime/UI, SQLite conversation store and summaries, local date/time route, provider-backed current/tomorrow weather, knowledge retrieval and evidence/confidence routes, projects, skills/capabilities, read-aloud, and approval-gated actions.
-- **Provider adapter** — uses LocalAI's `http://api:8080/v1/models` and `/v1/chat/completions` by default. Optional Ollama fallback is available through a profile; LocalAI remains the preferred provider; a persistent Ollama sidecar provisions the default Angel model automatically and is used when LocalAI has no chat model.
-- **Built-in K–12 starter pack** — an original, expandable set of general K–12 learning references seeded into the user's knowledge packs the first time the Harness runtime starts. It is a starter reference, not a complete set of official state standards or a full curriculum database.
+  [![Open Source](https://img.shields.io/badge/Open%20Source-Explore%20the%20Code-58a6ff?style=for-the-badge)](https://github.com/tcdoverlord/LocalAI-Angel)
+  [![LocalAI](https://img.shields.io/badge/Powered%20by-LocalAI-55d6a0?style=for-the-badge)](https://localai.io/)
 
-```text
-Browser
-  ├── Angel Home Base (Harness UI) http://127.0.0.1:8765
-  │     ├── chat + SQLite history/summaries
-  │     ├── deterministic date/time and weather routes
-  │     ├── knowledge/retrieval/EBR + K–12 starter pack
-  │     └── LocalAI model selector + links to LocalAI and Nexus
-  └── LocalAI React UI http://127.0.0.1:8080
-        ├── model gallery / inference API
-        └── /app/angel-nexus — Nexus module/repository manager
-```
+  [Get Started](#quick-start) · [Angel AI](#angel-ai-the-easy-start) · [Platform Overview](#three-connected-layers) · [Issues](https://github.com/tcdoverlord/LocalAI-Angel/issues)
+</div>
 
-## First launch on Windows
+---
 
-1. Extract this repository into a new folder, for example `D:\LocalAI-Angel-Unified`.
-2. Start Docker Desktop and wait until its Linux engine is running.
-3. Close the standalone Angel Harness app before launch if it is using the same `C:\Users\<you>\Angel_Platform` data directory.
-4. Run `START_ANGEL_UNIFIED.bat`.
-5. The first LocalAI source build can take a long time and needs substantial free disk space. The launcher builds the **fork source** (rather than substituting the unmodified upstream image), so the Nexus routes built into this tree are preserved.
-6. Open Angel at `http://127.0.0.1:8765`. LocalAI model management is at `http://127.0.0.1:8080`, and Nexus is at `http://127.0.0.1:8080/app/angel-nexus`.
-7. On first launch, the model-init service downloads `qwen2.5:3b` into the persistent Ollama model volume. This download is not bundled in the source ZIP and can take several minutes. Angel uses it automatically when LocalAI has no chat model. LocalAI's own model gallery remains available for installing additional LLMs; when LocalAI has a model, LocalAI stays the preferred provider. Deterministic date/time, live weather, and knowledge retrieval do not require a language model, but free-form reasoning does.
+> **The idea:** start with an AI assistant you can use, then grow into a more capable platform. Angel AI is the welcoming front door; LocalAI provides the model/inference layer; Angel Nexus is the modular tools and integration layer.
 
-## Persistent data and past chats
+## Angel AI: the easy start
 
-By default, the Windows launcher bind-mounts the existing `C:\Users\<you>\Angel_Platform` folder into `/data` in the Harness container. The Harness `ANGEL_DATA_DIR` setting makes the web runtime, SQLite database, summaries, knowledge library, snapshots, activity records, and related files use that same persistent directory. This is meant to **reuse rather than overwrite** the previously working Harness data.
+The project includes an Angel AI starter experience intended to let you begin chatting without first assembling the entire AI stack yourself.
 
-Before the first launch, make a copy of `C:\Users\<you>\Angel_Platform` and stop any standalone Harness process that is writing to it. Existing database content is not replaced by the startup script. The source's knowledge seeding copies `angel-k12-core` only if that pack folder does not already exist; it never overwrites an existing user-edited copy.
+**Internet required:** the ready-to-use starter uses an internet-connected AI service/model path and is intended to work at no cost under the provider's available free access. Provider limits, account requirements, and terms may change. This is **not** the same as fully offline AI.
 
-If you do not have an existing `Angel_Platform` folder, the launcher creates it. For non-Windows/manual Compose startup, set `ANGEL_USER_DATA` to a persistent writable host path or use the default `./Angel_Platform_Data` directory.
+If you want to explore local inference, LocalAI supports running compatible models on your own system. Local model use depends on your hardware, model choice, and configuration.
 
-## Built-in default model and additional LLMs
+## Three connected layers
 
-The default build starts a persistent Ollama sidecar and automatically downloads `qwen2.5:3b` on first launch. The model weights are stored in the `ollama-models` Docker volume, not inside the source ZIP. Angel uses LocalAI first whenever LocalAI has a chat model; if LocalAI has no model, Angel falls back to the provisioned default. Users can install additional LLMs through LocalAI's model gallery without losing Angel's identity, conversation history, or knowledge. Ollama's default model is separate from LocalAI's model gallery and is not automatically copied into LocalAI.
+| Component | Role |
+|---|---|
+| **Angel AI** | The approachable assistant experience and starting point for everyday AI use. |
+| **LocalAI** | The model and inference layer for supported local models, services, and APIs. |
+| **Angel Nexus** | A modular platform for tools, integrations, and future extensions. |
 
-## Time, weather, and timezone
+## What this project is working toward
 
-The Harness routes date/time requests using the container's local time zone and weather requests through its existing Open-Meteo lookup code. `ANGEL_TIMEZONE` defaults to `America/Indiana/Indianapolis`; change it in `.env` when deploying in another time zone. Weather requires internet access; if provider calls fail the assistant reports the failure instead of inventing live conditions.
+- A starter experience that is easier to launch than a from-scratch AI setup.
+- A modular architecture that keeps the assistant, inference service, and integrations distinct.
+- Persistent assistant features such as chat history, summaries, knowledge retrieval, and project context.
+- A path to local models and expanded AI capabilities.
+- Tool use with clear approval boundaries and verification.
+- A foundation for experimentation and future modules.
 
-## Repository initialization
+Some capabilities may be experimental, hardware-dependent, or still in development. The repository and its current docs are the source of truth for what is available in a particular build.
 
-This folder is designed to become a separate repository. After reviewing the source/license notices:
+## Quick start
 
-```powershell
-git init
-git add .
-git commit -m "Create LocalAI-Angel Unified Harness integration"
-```
+1. Review the prerequisites and launch notes in the repository.
+2. Start Docker Desktop if required by the supplied launcher.
+3. From the project folder, run the unified starter launcher documented for the current build: `START_ANGEL_UNIFIED.bat`.
+4. Follow the launcher's output and current documentation to open Angel Home Base, LocalAI, and Nexus where available.
 
-Do not commit `.env`, the `Angel_Platform` user data folder, downloaded model weights, or runtime repository clones. The included `.gitignore` covers common local data. The LocalAI Dockerfile is adjusted so a clean source archive can build without requiring a nested `.git` folder in the Docker context; its build version falls back safely when Git metadata isn't available.
+**Before launching:** check the repository's current docs and example environment file for prerequisites, model/provider configuration, ports, and troubleshooting. Never commit real API keys, tokens, or private `.env` files.
 
-## Validation scope
+### Choose your path
 
-Static integration tests verify Harness syntax, weather-route behavior, first-run K–12 seeding, provider model discovery/stream parsing with mocked HTTP responses, and the Compose structure. The full LocalAI source image build, Docker engine startup, hardware-specific inference performance, and live weather API calls must be validated on the target computer. The default model weights are downloaded on first launch rather than bundled in the source ZIP; user hardware and chosen model affect response speed. The complete container startup and live inference must still be confirmed on the target computer.
+- **Connected starter:** internet required; free access depends on the configured provider's current limits and terms.
+- **Local models:** can reduce reliance on hosted inference, but require compatible models and local compute. They may require additional setup.
 
-## Upstream and attribution
+## Project links
 
-The project includes source from LocalAI-Angel and Angel-AI-Harness. Preserve their original license and attribution files (`LICENSE` and `Angel_AI_Harness/LICENSE.md`) when redistributing. This integration does not imply that every advanced Harness action has been connected to Nexus; existing features remain within their original routes until explicitly wired and tested.
+- [Browse the repository](https://github.com/tcdoverlord/LocalAI-Angel)
+- [Angel AI Harness](https://github.com/tcdoverlord/LocalAI-Angel/tree/main/Angel_AI_Harness)
+- [LocalAI documentation](https://localai.io/)
+- [Report an issue](https://github.com/tcdoverlord/LocalAI-Angel/issues)
+- [Pull requests](https://github.com/tcdoverlord/LocalAI-Angel/pulls)
+
+## License and attribution
+
+This repository integrates upstream LocalAI with the Angel project. Review the license files and attribution notices for this repository and its individual components before redistributing. Do not assume every upstream component has the same license.
+
+---
+
+<div align="center"><sub>Built by <a href="https://github.com/tcdoverlord">TCDOVERLORD</a> · LocalAI-Angel</sub></div>
