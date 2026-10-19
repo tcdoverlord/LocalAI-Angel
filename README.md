@@ -201,8 +201,8 @@ GIFs animate automatically. For playback controls such as pause, resume, and see
 
 <p align="center">
   <a href="https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-start.gif">
-    <img src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/angel-start.gif"
-         alt="LocalAI-Angel Start demonstration"
+    <img src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/angel-stop.gif"
+         alt="LocalAI-Angel Stop demonstration"
          width="800">
   </a>
 </p>
