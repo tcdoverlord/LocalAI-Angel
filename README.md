@@ -1,85 +1,410 @@
+
 <div align="center">
   <img src="./core/http/static/logo.png" alt="LocalAI-Angel logo" width="150">
 
   # LocalAI-Angel by TCDOVERLORD
 
-  **A ready-to-use Angel AI experience, backed by LocalAI and expanded by Angel Nexus.**
+  **A unified local AI platform combining Angel AI, LocalAI, and Angel Nexus.**
 
-  [![Open Source](https://img.shields.io/badge/Open%20Source-Explore%20the%20Code-58a6ff?style=for-the-badge)](https://github.com/tcdoverlord/LocalAI-Angel)
-  [![LocalAI](https://img.shields.io/badge/Powered%20by-LocalAI-55d6a0?style=for-the-badge)](https://localai.io/)
+  ![Open Source](https://img.shields.io/badge/Project-Open%20Source-58a6ff?style=for-the-badge)
+  ![Local AI](https://img.shields.io/badge/AI-Local%20Inference-55d6a0?style=for-the-badge)
+  ![Platform](https://img.shields.io/badge/Platform-Windows%20%2B%20Docker-0078d4?style=for-the-badge)
 
-**[🌐 Visit the LocalAI-Angel Website](https://tcdoverlord.github.io/LocalAI-Angel/)**
+  **[🌐 Project Website](https://tcdoverlord.github.io/LocalAI-Angel/)** · **[📦 GitHub Repository](https://github.com/tcdoverlord/LocalAI-Angel)** · **[🐛 Report an Issue](https://github.com/tcdoverlord/LocalAI-Angel/issues)**
 
-  [Get Started](#quick-start) · [Architecture Overview](#architecture-overview) · [Angel AI](#angel-ai-the-easy-start) · [Issues](https://github.com/tcdoverlord/LocalAI-Angel/issues)
 </div>
 
 ---
 
-## Architecture Overview
-
 <p align="center">
-  <a href="https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png"><img src="assets/LocalAI-Angel%20Architecture%20Overview.png" alt="LocalAI-Angel Architecture Overview" width="100%"></a>
+  <a href="https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png">
+    <img src="./assets/LocalAI-Angel%20Architecture%20Overview.png" alt="LocalAI-Angel Architecture Overview" width="100%">
+  </a>
 </p>
-
-**[Open the full-size architecture graphic](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png)**
-
-> **The idea:** start with an AI assistant you can use, then grow into a more capable platform. Angel AI is the welcoming front door; LocalAI provides the model/inference layer; Angel Nexus is the modular tools and integration layer.
-
-## Angel AI: the easy start
-
-The project includes an Angel AI starter experience intended to let you begin chatting without first assembling the entire AI stack yourself.
-
-**Internet required:** the ready-to-use starter uses an internet-connected AI service/model path and is intended to work at no cost under the provider's available free access. Provider limits, account requirements, and terms may change. This is **not** the same as fully offline AI.
-
-If you want to explore local inference, LocalAI supports running compatible models on your own system. Local model use depends on your hardware, model choice, and configuration.
-
-## Three connected layers
-
-| Component | Role |
-|---|---|
-| **Angel AI** | The approachable assistant experience and starting point for everyday AI use. |
-| **LocalAI** | The model and inference layer for supported local models, services, and APIs. |
-| **Angel Nexus** | A modular platform for tools, integrations, and future extensions. |
-
-## What this project is working toward
-
-- A starter experience that is easier to launch than a from-scratch AI setup.
-- A modular architecture that keeps the assistant, inference service, and integrations distinct.
-- Persistent assistant features such as chat history, summaries, knowledge retrieval, and project context.
-- A path to local models and expanded AI capabilities.
-- Tool use with clear approval boundaries and verification.
-- A foundation for experimentation and future modules.
-
-Some capabilities may be experimental, hardware-dependent, or still in development. The repository and its current docs are the source of truth for what is available in a particular build.
-
-## Quick start
-
-1. Review the prerequisites and launch notes in the repository.
-2. Start Docker Desktop if required by the supplied launcher.
-3. From the project folder, run the unified starter launcher documented for the current build: `START_ANGEL_UNIFIED.bat`.
-4. Follow the launcher's output and current documentation to open Angel Home Base, LocalAI, and Nexus where available.
-
-**Before launching:** check the repository's current docs and example environment file for prerequisites, model/provider configuration, ports, and troubleshooting. Never commit real API keys, tokens, or private `.env` files.
-
-### Choose your path
-
-- **Connected starter:** internet required; free access depends on the configured provider's current limits and terms.
-- **Local models:** can reduce reliance on hosted inference, but require compatible models and local compute. They may require additional setup.
-
-## Project links
-
-- [Architecture image](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png)
-- [Styled website — HTML README](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/README.html)
-- [Browse the repository](https://github.com/tcdoverlord/LocalAI-Angel)
-- [Angel AI Harness](https://github.com/tcdoverlord/LocalAI-Angel/tree/main/Angel_AI_Harness)
-- [LocalAI documentation](https://localai.io/)
-- [Report an issue](https://github.com/tcdoverlord/LocalAI-Angel/issues)
-- [Pull requests](https://github.com/tcdoverlord/LocalAI-Angel/pulls)
-
-## License and attribution
-
-This repository integrates upstream LocalAI with the Angel project. Review the license files and attribution notices for this repository and its individual components before redistributing. Do not assume every upstream component has the same license.
 
 ---
 
-<div align="center"><sub>Built by <a href="https://github.com/tcdoverlord">TCDOVERLORD</a> · LocalAI-Angel</sub></div>
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Architecture](#architecture)
+- [Core Components](#core-components)
+- [Features and Capabilities](#features-and-capabilities)
+- [Requirements](#requirements)
+- [Quick Start](#quick-start)
+- [Local Services](#local-services)
+- [Models and Inference](#models-and-inference)
+- [Persistent Data](#persistent-data)
+- [Troubleshooting](#troubleshooting)
+- [Security and Privacy](#security-and-privacy)
+- [Development and Contributions](#development-and-contributions)
+- [Project Links](#project-links)
+- [License and Attribution](#license-and-attribution)
+
+---
+
+## Project Overview
+
+LocalAI-Angel is an evolving AI engineering project built around three connected layers:
+
+1. **Angel AI** — the assistant experience and conversational interface.
+2. **LocalAI** — the inference and API layer for supported AI models and services.
+3. **Angel Nexus** — a modular tools and integration environment.
+
+The unified launcher coordinates the project's Docker services and Angel Harness runtime, provisions the default model on first launch, and provides local URLs for the available interfaces.
+
+The goal is to create a practical foundation for local AI experimentation, assistant workflows, modular integrations, and future capabilities.
+
+This is an actively evolving project. Features may vary by build, hardware, configuration, and service readiness. Refer to the current source code and launcher output when verifying a particular capability.
+
+## Architecture
+
+The project separates the assistant experience from the model-serving infrastructure and the tools that extend it.
+
+**[View the architecture graphic](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png)**
+
+| Layer | Purpose |
+|---|---|
+| Angel AI | Assistant interface, conversation workflows, and the Angel Harness runtime. |
+| LocalAI | Model inference and API access for supported configurations. |
+| Angel Nexus | Modular tools, integrations, and project execution capabilities. |
+| Docker Compose | Coordinates the configured services and their dependencies. |
+| Persistent storage | Keeps supported application data across service restarts. |
+
+The exact interactions between these components depend on the current configuration and implementation.
+
+## Core Components
+
+### Angel AI
+
+Angel AI is the primary assistant experience. It provides the user-facing entry point to the unified environment and connects to the configured model and runtime services.
+
+The Angel Harness is included in the unified startup workflow. Its available features depend on the current implementation and configuration.
+
+### LocalAI
+
+LocalAI supplies an inference and API layer for supported models and services.
+
+It is a separate component from the assistant interface. Its model gallery and API are exposed through the local service URL listed below.
+
+Project startup may build the LocalAI service from source, so the first launch can take significantly longer than subsequent launches.
+
+### Angel Nexus
+
+Angel Nexus is the modular tools and integration layer. The unified Docker Compose configuration includes the Nexus override, and the launcher exposes the configured Nexus interface.
+
+Available modules and actions depend on the current repository implementation. Review the module interface and current documentation before assuming a particular tool is available.
+
+---
+
+## Features and Capabilities
+
+### Unified startup
+
+The supplied Windows launcher coordinates the configured services and starts the environment through Docker Compose.
+
+### Local model provisioning
+
+The current unified launcher configures `qwen2.5:3b` as the default model unless overridden by environment configuration. Model provisioning occurs automatically on first launch.
+
+### Local service interfaces
+
+The launcher reports the local addresses for Angel Home Base, LocalAI, Nexus, and the engineering/RAG API.
+
+### Persistent application data
+
+The launcher configures a persistent data location for supported chat, memory, and knowledge data. Existing SQLite history is detected by the startup script, which asks for confirmation before continuing.
+
+### Modular architecture
+
+Separating the assistant, inference services, and integrations provides a foundation for independent development and future extensions.
+
+### Engineering and troubleshooting
+
+The project uses Docker Compose to coordinate its services and includes launcher-level checks for Docker availability and startup errors.
+
+**Implementation note:** These capabilities describe the configured project architecture and launcher behavior. Individual features, APIs, memory functions, and integrations should be tested against the current build before being described as fully implemented or production-ready.
+
+---
+
+## Requirements
+
+The unified launcher is a Windows batch file and uses Docker Compose.
+
+Before starting, prepare the following:
+
+- A supported Windows environment.
+- Docker Desktop installed and running.
+- Docker Compose available through the Docker CLI.
+- An internet connection for initial image, source, and model downloads.
+- Sufficient free disk space for container images, the LocalAI build, model files, and persistent application data.
+- Enough available memory and compute resources for the selected model and services.
+
+The default model download is several gigabytes. The first LocalAI source build can also require substantial disk space and time.
+
+Actual performance depends on your processor, memory, storage, model, and available hardware acceleration.
+
+## Quick Start
+
+### 1. Obtain the repository
+
+Clone the project or download its files from:
+
+**https://github.com/tcdoverlord/LocalAI-Angel**
+
+If you already have the repository locally, open PowerShell in the project folder.
+
+### 2. Start Docker Desktop
+
+Open Docker Desktop and wait until the Docker engine is ready.
+
+Verify the CLI is available:
+
+```powershell
+docker version
+docker compose version
+```
+
+Both commands should complete successfully.
+
+### 3. Run the unified launcher
+
+From the project directory, execute:
+
+```powershell
+.\START_ANGEL_UNIFIED.bat
+```
+
+The launcher checks for Docker, creates `.env` from `.env.example` when needed, configures the persistent data location, and starts the configured Docker Compose services.
+
+It also provisions the default model on first launch.
+
+**Important:** The first launch can take a while. The model download and LocalAI build may take several minutes or longer, depending on your connection and hardware. Keep Docker Desktop running while the services initialize.
+
+### 4. Open Angel Home Base
+
+When startup completes, the launcher reports the available local interfaces and opens Angel Home Base in your browser.
+
+The default address is:
+
+**http://127.0.0.1:8765**
+
+### 5. Explore the other interfaces
+
+Use the local service addresses listed in the [Local Services](#local-services) section to explore the configured interfaces.
+
+If a service does not respond immediately, allow time for initialization and inspect the terminal output before restarting the entire stack.
+
+### Subsequent launches
+
+After the first successful setup, run the same launcher again:
+
+```powershell
+.\START_ANGEL_UNIFIED.bat
+```
+
+Docker can reuse downloaded images and existing model data, although containers may still rebuild when the project configuration or source changes.
+
+---
+
+## Local Services
+
+The unified launcher currently reports these default addresses:
+
+| Component | Local URL | Purpose |
+|---|---|---|
+| Angel Home Base | [http://127.0.0.1:8765](http://127.0.0.1:8765) | Main Angel interface |
+| LocalAI | [http://127.0.0.1:8080](http://127.0.0.1:8080) | LocalAI model gallery and API |
+| Angel Nexus | [http://127.0.0.1:8080/app/angel-nexus](http://127.0.0.1:8080/app/angel-nexus) | Configured Nexus interface |
+| Engineering/RAG API | [http://127.0.0.1:8780](http://127.0.0.1:8780) | Engineering and retrieval API |
+
+These are the launcher's configured defaults. A reachable URL does not necessarily mean every feature behind that interface is operational.
+
+The interfaces use loopback addresses, so they are intended for access from the local machine unless you deliberately change the networking configuration.
+
+## Models and Inference
+
+### Default model
+
+The current unified launcher sets:
+
+```text
+ANGEL_DEFAULT_MODEL=qwen2.5:3b
+```
+
+The launcher provisions this default model automatically on first launch unless an environment override changes the configuration.
+
+The model download can be several gigabytes. Allow additional time for the initial setup.
+
+### LocalAI and Ollama
+
+The unified setup includes an Ollama fallback setting and a LocalAI service. These are related to the AI infrastructure but are not the same service.
+
+- **Ollama** can provide model provisioning and local model execution for the configured assistant path.
+- **LocalAI** provides its own supported inference and API layer.
+- **Angel AI** is the assistant experience that uses the configured runtime.
+
+Do not assume every model, API, or provider configuration works interchangeably. Check the current environment configuration and service documentation.
+
+### Hardware considerations
+
+Model performance and compatibility depend on:
+
+- Available system memory.
+- CPU and GPU capabilities.
+- Model size and quantization.
+- Storage capacity and speed.
+- Runtime configuration and hardware acceleration support.
+
+Start with the configured default model before changing model settings. If you select a larger model, check its requirements first.
+
+## Persistent Data
+
+The launcher reports the persistent data location and configures the default user data path under:
+
+```text
+%USERPROFILE%\Angel_Platform
+```
+
+If the relevant environment variable is not available, the launcher uses a project-relative fallback location.
+
+The configured location is intended to preserve supported chat, memory, and knowledge data across service restarts. Actual persistence depends on the relevant application and storage configuration.
+
+### Existing Angel history
+
+The launcher checks for an existing SQLite history database and asks whether to continue using it in place.
+
+If you are unsure whether the existing data is compatible, cancel startup and make a backup before proceeding.
+
+**Do not delete persistent data folders as a troubleshooting shortcut.** Back up your data before migrations, storage changes, or destructive maintenance.
+
+## Troubleshooting
+
+### Docker is unavailable
+
+If the launcher reports that Docker is missing or the engine is unavailable:
+
+1. Start Docker Desktop.
+2. Wait until the engine finishes starting.
+3. Run `docker version`.
+4. Retry the unified launcher.
+
+### The first startup takes a long time
+
+Initial startup may download the model, pull images, build LocalAI, and initialize services.
+
+Check Docker output and system resource usage before assuming the launcher is stuck. Make sure you have adequate disk space and a stable internet connection.
+
+### Angel Home Base does not open
+
+Try opening the URL manually:
+
+```text
+http://127.0.0.1:8765
+```
+
+Then inspect the launcher output and Docker container status:
+
+```powershell
+docker compose -f docker-compose.yaml -f docker-compose.nexus.override.yaml -f docker-compose.angel-harness.yaml ps
+```
+
+Use the same Compose files that the unified launcher uses.
+
+### A service is not responding
+
+Check whether the relevant container is running and review its logs:
+
+```powershell
+docker compose -f docker-compose.yaml -f docker-compose.nexus.override.yaml -f docker-compose.angel-harness.yaml logs --tail 100
+```
+
+If you need to narrow the output to a particular service, use the service name reported by Docker Compose.
+
+A running container does not guarantee the application inside it is healthy. Check application logs and its documented health endpoint where available.
+
+### Model or inference errors
+
+Check that the configured model is available, that sufficient memory and disk space are available, and that the correct inference service is running.
+
+Review the launcher output and model/runtime configuration before changing environment variables.
+
+### Existing data prompts
+
+If the launcher detects an existing SQLite history database, it asks whether to continue using it in place.
+
+If you need to preserve the current data and are unsure what to do, cancel startup, back up the data folder, and investigate compatibility before continuing.
+
+### Stopping the services
+
+To stop the stack without deleting containers, models, or Nexus data, use the supplied stop script:
+
+```powershell
+.\STOP_ANGEL.bat
+```
+
+The script runs the configured Docker Compose `stop` operation. It is intended to stop services while preserving persistent data.
+
+If the startup process fails, retain the terminal output and relevant logs when reporting the issue.
+
+## Security and Privacy
+
+Local inference can reduce dependence on hosted model providers, but local software should not automatically be assumed secure or fully offline.
+
+- Review the network behavior of each configured component.
+- Understand whether a selected model or service sends data to an external provider.
+- Never commit API keys, access tokens, credentials, or private `.env` files.
+- Keep Docker Desktop and project dependencies updated.
+- Back up persistent data before upgrades or migrations.
+- Avoid exposing local service ports to untrusted networks without appropriate security controls.
+- Test tool actions and integrations before trusting them with important files or systems.
+
+The default model path, optional integrations, and any externally hosted services can have different connectivity and privacy characteristics. Review the current configuration before using sensitive information.
+
+## Development and Contributions
+
+LocalAI-Angel is an evolving engineering project. Contributions, bug reports, documentation improvements, and reproducible test results can help improve its reliability.
+
+Before proposing a change:
+
+1. Review the existing implementation and project documentation.
+2. Identify the component affected: Angel AI, LocalAI, Angel Nexus, or the launcher.
+3. Reproduce the behavior where possible.
+4. Record relevant logs and configuration details without exposing secrets.
+5. Test the change and document any hardware or environment requirements.
+
+When reporting an issue, include your operating system, Docker version, the relevant launcher output, and the steps needed to reproduce the problem.
+
+Do not include API keys, tokens, private `.env` files, or personal data in public issues.
+
+**[Open a GitHub issue](https://github.com/tcdoverlord/LocalAI-Angel/issues)** · **[View pull requests](https://github.com/tcdoverlord/LocalAI-Angel/pulls)**
+
+## Project Links
+
+- **Project repository:** https://github.com/tcdoverlord/LocalAI-Angel
+- **Project website:** https://tcdoverlord.github.io/LocalAI-Angel/
+- **Architecture overview:** https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png
+- **Angel AI Harness:** https://github.com/tcdoverlord/LocalAI-Angel/tree/main/Angel_AI_Harness
+- **Styled HTML README:** https://github.com/tcdoverlord/LocalAI-Angel/blob/main/README.html
+- **LocalAI documentation:** https://localai.io/
+- **Issues:** https://github.com/tcdoverlord/LocalAI-Angel/issues
+- **Pull requests:** https://github.com/tcdoverlord/LocalAI-Angel/pulls
+- **Maintainer GitHub profile:** https://github.com/tcdoverlord
+- **Technical portfolio:** https://tcdoverlord.github.io/Resume_TCDOVERLORD/
+
+## License and Attribution
+
+LocalAI-Angel brings together the Angel project and upstream software, including LocalAI. Each component may have its own license, attribution requirements, and redistribution terms.
+
+Review the license files and notices included with the repository and its dependencies before distributing modified builds or bundled components. Do not assume every component uses the same license.
+
+---
+
+<div align="center">
+
+**Built by [TCDOVERLORD](https://github.com/tcdoverlord)**
+
+*Local AI. Modular tools. Practical engineering.*
+
+</div>
