@@ -1,0 +1,18 @@
+FROM python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app \
+    ANGEL_HOST=0.0.0.0 \
+    ANGEL_PORT=8765 \
+    ANGEL_ENGINEERING_HOST=0.0.0.0 \
+    ANGEL_ENGINEERING_PORT=8780 \
+    ANGEL_DATA_DIR=/data \
+    TZ=America/Indiana/Indianapolis
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates tzdata && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY requirements.txt ./requirements-source.txt
+RUN pip install --no-cache-dir "cryptography>=42.0"
+COPY . ./
+EXPOSE 8765 8780
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8765/api/status', timeout=4)" || exit 1
+CMD ["python", "run_angel_unified_container.py"]
