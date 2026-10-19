@@ -181,38 +181,45 @@ Click **STOP ANGEL** to run `STOP_ANGEL.bat`. This stops the configured services
 
 ## Control Center Video Guides
 
-The following short recordings demonstrate the three main actions in the LocalAI-Angel Control Center. Save the GIFs in `docs/images/` using these filenames, then commit them with this README:
+These recordings demonstrate the three main actions in the LocalAI-Angel Control Center.
+
+GIFs animate automatically. For playback controls such as pause, resume, and seeking, use an MP4 video hosted on a page that supports video controls.
 
 ### Install / Repair
 
-<!-- GIF PLACEHOLDER: Save the ScreenToGif recording as docs/images/angel-install.gif, then replace this placeholder with:
-![LocalAI-Angel Install and Repair demonstration](docs/images/angel-install.gif)
--->
+<p align="center">
+  <a href="https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-install.gif">
+    <img src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/angel-install.gif"
+         alt="LocalAI-Angel Install and Repair demonstration"
+         width="800">
+  </a>
+</p>
 
-> **[INSTALL / REPAIR GIF PLACEHOLDER]**  
-> *Coming soon — the installation and repair walkthrough will appear here.*
+[Open Install / Repair GIF](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-install.gif)
 
 ### Start Angel
 
-Watch LocalAI-Angel start using the Control Center.
-
 <p align="center">
-  <img
-    src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/angel-start.gif"
-    alt="Animated demonstration of starting LocalAI-Angel"
-    width="800"
-  >
+  <a href="https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-start.gif">
+    <img src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/angel-start.gif"
+         alt="LocalAI-Angel Start demonstration"
+         width="800">
+  </a>
 </p>
+
+[Open Start Angel GIF](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-start.gif)
 
 ### Stop Angel
 
 <p align="center">
-  <img
-    src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/angel-stop.gif"
-    alt="Animated demonstration of starting LocalAI-Angel"
-    width="800"
-  >
+  <a href="https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-stop.gif">
+    <img src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/angel-stop.gif"
+         alt="LocalAI-Angel Stop demonstration"
+         width="800">
+  </a>
 </p>
+
+[Open Stop Angel GIF](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-stop.gif)
 
 ---
 
