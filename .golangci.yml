@@ -1,15 +1,14 @@
 version: "2"
 
-# Only issues introduced relative to master are reported. Pre-existing issues
+# Only issues introduced relative to main are reported. Pre-existing issues
 # in the codebase do not fail the lint job; they're treated as a baseline that
 # can be cleaned up incrementally. New code (added lines on a branch) is held
 # to the full linter set. Locally, `make lint-all` overrides this and reports
 # every issue.
 issues:
-  # origin/master because in shallow CI checkouts only the remote-tracking
+  # origin/main because in shallow CI checkouts only the remote-tracking
   # branch exists; a bare 'master' ref isn't reachable locally.
-  new-from-merge-base: origin/master
-
+  new-from-merge-base: origin/main
 linters:
   default: standard
   # staticcheck is noisy on this codebase (mostly QF style suggestions like
