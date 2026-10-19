@@ -144,6 +144,7 @@ The default model download is several gigabytes. The first LocalAI source build 
 
 Actual performance depends on your processor, memory, storage, model, and available hardware acceleration.
 
+
 ## Quick Start
 
 ### Requirements
@@ -155,30 +156,54 @@ Actual performance depends on your processor, memory, storage, model, and availa
 
 ### 1. Get the project
 
-Clone the repository or download it from **https://github.com/tcdoverlord/LocalAI-Angel**. Keep the Control Center executable and its batch scripts in the repository folder so the buttons can find the scripts.
+Clone the repository or download it from **https://github.com/tcdoverlord/LocalAI-Angel**.
+
+After downloading, open the project folder. The Control Center executable is located inside the `dist` directory:
+
+```text
+LocalAI-Angel/
+├── dist/
+│   └── AngelControlCenter.exe
+├── INSTALL_ANGEL_V1.0.0.bat
+├── START_ANGEL.bat
+├── STOP_ANGEL.bat
+└── docker-compose.yaml
+```
+
+Keep the `dist` folder and the batch scripts in their original locations so the Control Center can find and run the scripts correctly.
 
 ### 2. Run Install / Repair
 
-Open `AngelControlCenter.exe` and click **INSTALL / REPAIR**. This runs `INSTALL_ANGEL_V1.0.0.bat`, which is intended for both first-time setup and subsequent repair runs. Follow the console output and wait for the endpoint checks to finish.
+Open the project's `dist` folder and double-click:
 
-You can also run the installer directly from PowerShell or File Explorer by launching `INSTALL_ANGEL_V1.0.0.bat` from the repository folder.
+`AngelControlCenter.exe`
+
+In the Control Center, click **INSTALL / REPAIR**. This runs `INSTALL_ANGEL_V1.0.0.bat` to perform the initial setup or repair the existing installation.
+
+Follow the console output and wait for the setup and endpoint checks to finish.
+
+You can also run `INSTALL_ANGEL_V1.0.0.bat` directly from the repository root.
 
 ### 3. Start Angel
 
-After installation completes, click **START ANGEL** in the Control Center. This launches `START_ANGEL.bat` to start the Compose stack. Wait for the services to initialize, then open Angel Home Base at:
+After installation completes, return to the Control Center and click **START ANGEL**.
+
+This launches `START_ANGEL.bat` to start the configured Docker Compose services. Wait for the services to initialize, then open Angel Home Base:
 
 **http://127.0.0.1:8765/**
 
 ### 4. Stop Angel
 
-Click **STOP ANGEL** to run `STOP_ANGEL.bat`. This stops the configured services without intentionally deleting persistent data or model volumes.
+In the Control Center, click **STOP ANGEL**.
+
+This runs `STOP_ANGEL.bat` to stop the configured services without intentionally deleting persistent data or model volumes.
 
 ### Repeat use
 
-- **Everyday use:** use **START ANGEL** and **STOP ANGEL**.
-- **First-time setup or repair:** use **INSTALL / REPAIR**.
-- Keep Docker Desktop running while installing or starting the stack.
-
+- **Everyday use:** Open `dist\AngelControlCenter.exe` and use **START ANGEL** and **STOP ANGEL**.
+- **First-time setup or repair:** Open the Control Center and select **INSTALL / REPAIR**.
+- **Keep Docker Desktop running** while installing or starting the stack.
+- **Do not move the executable or batch scripts** from their expected project locations.
 
 ## Control Center Video Guides
 
