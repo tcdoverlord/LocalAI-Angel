@@ -1,5 +1,4 @@
 from __future__ import annotations
-import os
 
 import json
 import sqlite3
@@ -9,7 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-DATA = Path(os.getenv("ANGEL_DATA_DIR", str(Path.home() / "Angel_Platform"))).expanduser()
+DATA = Path.home() / "Angel_Platform"
 DB = DATA / "angel_intelligence.sqlite3"
 
 def now() -> str:

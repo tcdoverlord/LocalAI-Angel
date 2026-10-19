@@ -264,21 +264,6 @@ const fetchJsonWithTimeout=async(url,ms=4000)=>{
  try{const r=await fetch(url,{signal:controller.signal});const j=await r.json();if(!r.ok)throw Error(`HTTP ${r.status}`);return j}
  finally{clearTimeout(timer)}
 };
-
-async function refreshModels(){
- const select=$('#model');if(!select)return;
- try{
-  const r=await fetchJsonWithTimeout('/api/models');
-  const items=Array.isArray(r.models)?r.models:[];
-  const old=select.value;
-  select.innerHTML='';
-  if(!items.length){const o=document.createElement('option');o.value='';o.textContent='No model installed';select.appendChild(o);select.disabled=true;select.title='Install a chat model in LocalAI, then refresh Angel.';return;}
-  for(const item of items){const o=document.createElement('option');o.value=item.id;o.textContent=item.id;select.appendChild(o);}
-  const preferred=[r.default_model,old].find(x=>x&&items.some(m=>m.id===x));
-  select.value=preferred||items[0].id;select.disabled=false;select.title=`Models supplied by ${r.provider||'LocalAI'}`;
- }catch(e){select.innerHTML='';const o=document.createElement('option');o.value='';o.textContent='Model service unavailable';select.appendChild(o);select.disabled=true;select.title=String(e.message||e);}
-}
-
 async function refreshStatus(){
  let s=null;
  try{s=await fetchJsonWithTimeout('/api/status');}
@@ -292,12 +277,12 @@ async function refreshStatus(){
  }
  if(s){
   const connected=!!s.ollama;
-  $('#backendState').textContent=connected?`● ${s.provider||'LocalAI'} connected`:'● Model provider unavailable';
+  $('#backendState').textContent=connected?'● Local backend connected':'● Local backend offline';
   $('#backendState').classList.toggle('offline',!connected);
   $('#modelState').textContent=`Model: ${s.model_name||'llama3.2:3b'}`;
-  $('#miniBackend').textContent=connected?(s.provider||'LocalAI'):'Offline';
+  $('#miniBackend').textContent=connected?'Local':'Offline';
   $('#miniModel').textContent=s.model_name||'llama3.2:3b';
-  workspaceSummary={...(workspaceSummary||{}),model:{name:s.model_name||'llama3.2:3b',backend:connected?(s.provider||'LocalAI'):'Offline',context:s.context_capacity||'8K context'}};
+  workspaceSummary={...(workspaceSummary||{}),model:{name:s.model_name||'llama3.2:3b',backend:connected?'LocalAI/Ollama':'Offline',context:s.context_capacity||'8K context'}};
  }
  try{
   const k=await fetchJsonWithTimeout('/api/knowledge');
@@ -313,11 +298,9 @@ $('#prompt').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.p
 $('#voice').onclick=()=>{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return alert('Voice input is unavailable here.');const r=new R();r.onresult=e=>$('#prompt').value=e.results[0][0].transcript;r.start()};
 document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>renderPage(b.dataset.page));
 window.addEventListener('beforeunload',stopReading);
-window.addEventListener('focus',refreshModels);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopReading();});
 $('#conversationSearch').oninput=refreshConversationHistory;
 loadActiveProject();
-refreshModels();
 refreshStatus();
 refreshConversationHistory();
 refreshContext();
