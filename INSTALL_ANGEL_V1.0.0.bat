@@ -1,25 +1,27 @@
 @echo off
 setlocal EnableExtensions
 cd /d "%~dp0"
-title LocalAI Angel Unified v1.0.0 - Installer
+title LocalAI-Angel v1.0.0 - Install / Repair
 color 0B
 echo ============================================================
-echo       LOCALAI ANGEL UNIFIED - VERSION 1.0.0
-echo                  FIRST-TIME INSTALL
+echo       LOCALAI-ANGEL UNIFIED - INSTALL / REPAIR
 echo ============================================================
-echo This builds and starts the unified LocalAI + Angel Harness + Nexus stack.
-echo Existing Compose volumes and persistent data are not deleted.
-echo First install may take a long time and download the default model.
+echo Works for first-time installation and repeat repair/update runs.
+echo Existing .env settings and Docker data/model volumes are preserved.
+echo This script does not run docker compose down -v or delete volumes.
+echo First build may take a while and download large images.
 echo.
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0INSTALL_ANGEL_V1.0.0.ps1"
-if errorlevel 1 (
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0INSTALL_ANGEL_V1.0.0.ps1"
+set "INSTALL_EXIT=%ERRORLEVEL%"
+if not "%INSTALL_EXIT%"=="0" (
   echo.
-  echo Installation failed. Review the error above and angel-v1-install.log.
+  echo INSTALL / REPAIR FAILED. Review angel-v1-install.log and the errors above.
   pause
-  exit /b 1
+  exit /b %INSTALL_EXIT%
 )
 echo.
-echo Installation and endpoint checks completed.
-echo Use RUN_ANGEL_V1.0.0.bat for future starts and STOP_ANGEL_V1.0.0.bat to stop.
+echo INSTALL / REPAIR SUCCEEDED.
+echo Use START_ANGEL.bat for normal startup and STOP_ANGEL.bat to stop the stack.
 pause
 endlocal
+exit /b 0
