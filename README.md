@@ -206,14 +206,13 @@ Watch LocalAI-Angel start using the Control Center.
 
 ### Stop Angel
 
-<!-- GIF PLACEHOLDER: Save the ScreenToGif recording as docs/images/angel-stop.gif, then replace this placeholder with:
-![LocalAI-Angel Stop demonstration](docs/images/angel-stop.gif)
--->
-
-> **[STOP ANGEL GIF PLACEHOLDER]**  
-> *Coming soon — the shutdown walkthrough will appear here.*
-
-When each recording is ready, save it under `docs/images/` with the filename shown in its placeholder comment, then replace the visible placeholder with the image Markdown. If a recording is very large, optimize it or use a short GIF preview linking to a full MP4 tutorial.
+<p align="center">
+  <img
+    src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/angel-stop.gif"
+    alt="Animated demonstration of starting LocalAI-Angel"
+    width="800"
+  >
+</p>
 
 ---
 
