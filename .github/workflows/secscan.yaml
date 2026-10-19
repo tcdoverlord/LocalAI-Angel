@@ -20,6 +20,10 @@ concurrency:
   group: ci-secscan-${{ github.ref }}-${{ github.repository }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   tests:
     runs-on: ubuntu-latest

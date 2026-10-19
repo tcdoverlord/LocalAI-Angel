@@ -7,10 +7,10 @@ from datetime import datetime, timezone
 ROOT = Path(__file__).resolve().parent
 SEED_FILE = ROOT / "seed_cards.json"
 EXPANSION_FILE = ROOT / "expansion_cards.json"
-DATA = Path(os.getenv("ANGEL_DATA_DIR", str(Path.home() / "Angel_Platform"))).expanduser()
+DATA = Path(os.environ.get("ANGEL_DATA_DIR") or (Path.home() / "Angel_Platform"))
 KNOWLEDGE_FILE = DATA / "knowledge_cards.json"
 FEEDBACK_FILE = DATA / "feedback.json"
-FIELD_GUIDES = ROOT / "field_guides"
+FIELD_GUIDES = ROOT / "field_guides_333"
 USER_KNOWLEDGE = DATA / "knowledge"
 PACKS_DIR = USER_KNOWLEDGE / "packs"
 FILES_DIR = USER_KNOWLEDGE / "files"
@@ -427,27 +427,3 @@ def record_feedback(message: str, rating: str, note: str = "", conversation_id: 
 
 def status():
     return {"seed_cards": len(_load(SEED_FILE, [])), "expansion_cards": len(_load(EXPANSION_FILE, [])), "total_cards": len(cards()), "feedback_file": str(FEEDBACK_FILE)}
-
-def initialize_builtin_knowledge():
-    """Seed shipped knowledge packs into persistent user data without overwriting edits."""
-    builtin = ROOT / "builtin_packs"
-    seeded = False
-    if builtin.exists():
-        for source in sorted(builtin.iterdir()):
-            if not source.is_dir():
-                continue
-            destination = PACKS_DIR / source.name
-            if destination.exists():
-                continue
-            try:
-                shutil.copytree(source, destination)
-                seeded = True
-            except FileExistsError:
-                pass
-    # Rebuild once on first use or when a new built-in pack was added.
-    if seeded or not INDEX_FILE.exists():
-        return reindex_user_knowledge()
-    return _load_user_index()
-
-
-_BUILTIN_KNOWLEDGE_INDEX = initialize_builtin_knowledge()

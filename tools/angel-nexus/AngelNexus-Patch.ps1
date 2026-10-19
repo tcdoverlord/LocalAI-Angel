@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
     [ValidateSet("validate", "apply", "history")]
@@ -40,4 +40,3 @@ switch ($Action) {
         exit $LASTEXITCODE
     }
 }
-

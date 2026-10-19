@@ -31,15 +31,29 @@ runtime/
 Thumbs.db
 .vscode/
 
-notes/backups/
-notes/bug_fixes/
-nexus-data/git/
-
-# LocalAI-Angel Unified local data / secrets
-.env
+# LocalAI Angel Unified: private runtime data (never publish)
 /Angel_Platform_Data/
-/Angel_AI_Harness/.venv/
-/Angel_AI_Harness/.pytest_cache/
-/Angel_AI_Harness/**/__pycache__/
-/Angel_AI_Harness/*.log
-/Angel_AI_Harness/*.pid
+/nexus-data/
+/.env
+/.env.*
+!/.env.example
+/core/http/react-ui/.env.local
+**/.env.local
+**/*.sqlite
+**/*.sqlite3
+**/*.sqlite3-*
+**/*.db
+**/*.db-wal
+**/*.db-shm
+**/*.log
+**/context_traces.jsonl
+**/context_diagnostics.jsonl
+
+# Local secrets and runtime data
+.env
+Angel_Platform_Data/
+nexus-data/
+**/.git/
+
+# Exclude repetitive generated knowledge guides
+/Angel_AI_Harness/angel_platform/knowledge/field_guides/

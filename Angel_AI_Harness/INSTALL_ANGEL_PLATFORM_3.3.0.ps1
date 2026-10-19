@@ -1,4 +1,4 @@
-param([string]$Target = "D:\Angel_AI")
+﻿param([string]$Target = "D:\Angel_AI")
 $ErrorActionPreference = "Stop"
 $PackageRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 if (!(Test-Path $Target)) { throw "Target does not exist: $Target" }
