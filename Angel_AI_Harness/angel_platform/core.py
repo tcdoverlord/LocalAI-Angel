@@ -1,5 +1,4 @@
 from __future__ import annotations
-import os
 from dataclasses import dataclass, asdict
 from pathlib import Path
 import json, logging, platform, shutil, subprocess, sys
@@ -7,7 +6,7 @@ from .execution import SafeExecutor, ExecutionPolicy
 
 ROOT = Path(__file__).resolve().parent.parent
 # Keep user data outside the installed/build directory so new EXEs retain history.
-DATA = Path(os.getenv('ANGEL_DATA_DIR', str(Path.home() / 'Angel_Platform'))).expanduser(); DATA.mkdir(parents=True, exist_ok=True)
+DATA = Path.home() / 'Angel_Platform'; DATA.mkdir(parents=True, exist_ok=True)
 LOG_PATH = DATA / 'angel-platform.log'
 logging.basicConfig(filename=LOG_PATH, level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 

@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 BASE_URL = os.getenv("ANGEL_R4_BASE_URL", "http://127.0.0.1:8765").rstrip("/")
-HOME_DATA = Path(os.getenv("ANGEL_DATA_DIR", str(Path.home() / "Angel_Platform"))).expanduser()
+HOME_DATA = Path.home() / "Angel_Platform"
 
 @dataclass(frozen=True)
 class R4Result:

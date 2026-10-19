@@ -1,4 +1,4 @@
-# ============================================================
+﻿# ============================================================
 # ANGEL AI BUILD - Git Ignore
 # Angel Platform OS / Angel AI / Angel Nexus
 # Protects local secrets, personal data, runtime state, and
@@ -75,6 +75,8 @@ data/
 runtime/
 runtime_data/
 storage/
+!angel_platform/storage/
+!angel_platform/storage/*.py
 cache/
 tmp/
 temp/
@@ -295,3 +297,4 @@ angel-r4.pid
 
 # Public UI design tokens
 !assets/angel-ai-ui-assets-v1/docs/design-tokens.json
+

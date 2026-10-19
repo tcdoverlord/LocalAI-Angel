@@ -1,5 +1,4 @@
 from __future__ import annotations
-import os
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from datetime import datetime, timezone
@@ -567,171 +566,38 @@ def load_context_diagnostics(limit: int = 100) -> list[dict]:
             continue
     return list(reversed(result))
 
-# Provider adapter: LocalAI is the default inference provider. The optional Ollama
-# route is used only when configured explicitly or as an enabled fallback.
-LOCALAI_BASE_URL = os.getenv("ANGEL_LOCALAI_BASE_URL", "http://api:8080").rstrip("/")
-LOCALAI_API_KEY = os.getenv("ANGEL_LOCALAI_API_KEY", "").strip()
-OLLAMA_BASE_URL = os.getenv("ANGEL_OLLAMA_BASE_URL", "http://ollama:11434").rstrip("/")
-DEFAULT_MODEL = os.getenv("ANGEL_DEFAULT_MODEL", "").strip()
-CONFIGURED_PROVIDER = os.getenv("ANGEL_LLM_PROVIDER", "localai").strip().lower()
-OLLAMA_FALLBACK_ENABLED = os.getenv("ANGEL_OLLAMA_FALLBACK", "false").strip().lower() in {"1", "true", "yes", "on"}
-_PROVIDER_CACHE = {"at": 0.0, "key": None, "provider": "localai", "models": []}
-_PROVIDER_CACHE_LOCK = threading.RLock()
-
-
-def _json_get(url: str, *, headers=None, timeout=4):
-    request = urllib.request.Request(url, headers=headers or {"Accept": "application/json"})
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        return json.loads(response.read().decode("utf-8"))
-
-
-def _localai_models():
-    headers = {"Accept": "application/json"}
-    if LOCALAI_API_KEY:
-        headers["Authorization"] = "Bearer " + LOCALAI_API_KEY
-    payload = _json_get(LOCALAI_BASE_URL + "/v1/models", headers=headers, timeout=4)
-    rows = payload.get("data", []) if isinstance(payload, dict) else []
-    return [{"id": str(x.get("id", "")).strip(), "object": x.get("object", "model")} for x in rows if isinstance(x, dict) and str(x.get("id", "")).strip()]
-
-
-def _ollama_models():
-    payload = _json_get(OLLAMA_BASE_URL + "/api/tags", timeout=3)
-    rows = payload.get("models", []) if isinstance(payload, dict) else []
-    return [{"id": str(x.get("name", "")).strip(), "object": "model"} for x in rows if isinstance(x, dict) and str(x.get("name", "")).strip()]
-
-
-def active_provider_models(*, refresh=False):
-    """Return (provider, model-list); cache briefly so UI polling stays inexpensive."""
-    configured = CONFIGURED_PROVIDER if CONFIGURED_PROVIDER in {"localai", "ollama"} else "localai"
-    key = (configured, LOCALAI_BASE_URL, OLLAMA_BASE_URL, OLLAMA_FALLBACK_ENABLED)
-    now_mono = time.monotonic()
-    with _PROVIDER_CACHE_LOCK:
-        if not refresh and _PROVIDER_CACHE["key"] == key and now_mono - _PROVIDER_CACHE["at"] < 4:
-            return _PROVIDER_CACHE["provider"], list(_PROVIDER_CACHE["models"])
-        provider, models = configured, []
-        if configured == "localai":
-            try:
-                models = _localai_models()
-            except Exception:
-                models = []
-            if not models and OLLAMA_FALLBACK_ENABLED:
-                try:
-                    backup_models = _ollama_models()
-                    if backup_models:
-                        provider, models = "ollama", backup_models
-                except Exception:
-                    pass
-        else:
-            try:
-                models = _ollama_models()
-            except Exception:
-                models = []
-            if not models and OLLAMA_FALLBACK_ENABLED:
-                try:
-                    backup_models = _localai_models()
-                    if backup_models:
-                        provider, models = "localai", backup_models
-                except Exception:
-                    pass
-        _PROVIDER_CACHE.update({"at": now_mono, "key": key, "provider": provider, "models": list(models)})
-        return provider, list(models)
-
-
-def _chosen_model(requested=None):
-    _provider, models = active_provider_models()
-    ids = [x["id"] for x in models]
-    asked = str(requested or "").strip()
-    if asked in ids:
-        return asked
-    if DEFAULT_MODEL and DEFAULT_MODEL in ids:
-        return DEFAULT_MODEL
-    if ids:
-        return ids[0]
-    return asked or DEFAULT_MODEL or ""
+# In the unified Docker stack, Ollama is a separate service.  Inside this
+# container, 127.0.0.1 points back to Angel, so use the Compose service URL.
+OLLAMA_BASE_URL = os.getenv("ANGEL_OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
+ANGEL_DEFAULT_MODEL = os.getenv("ANGEL_DEFAULT_MODEL", "llama3.2:3b").strip() or "llama3.2:3b"
 
 
 def ollama_available():
-    # Name retained for compatibility with the existing Harness route/tests.
-    _provider, models = active_provider_models()
-    return bool(models)
-
-
-def _openai_piece(event):
-    choices = event.get("choices") or []
-    if not choices:
-        return ""
-    first = choices[0] if isinstance(choices[0], dict) else {}
-    delta = first.get("delta") or {}
-    piece = delta.get("content")
-    if piece is None:
-        piece = (first.get("message") or {}).get("content", "")
-    if isinstance(piece, list):
-        piece = "".join(str(x.get("text", "")) if isinstance(x, dict) else str(x) for x in piece)
-    return str(piece or "")
-
-
-def _localai_stream(model, messages):
-    headers = {"Content-Type": "application/json", "Accept": "text/event-stream"}
-    if LOCALAI_API_KEY:
-        headers["Authorization"] = "Bearer " + LOCALAI_API_KEY
-    payload = json.dumps({"model": model, "messages": messages, "stream": True}).encode("utf-8")
-    request = urllib.request.Request(LOCALAI_BASE_URL + "/v1/chat/completions", data=payload, headers=headers, method="POST")
     try:
-        with urllib.request.urlopen(request, timeout=180) as response:
-            for line in response:
-                row = line.decode("utf-8", "replace").strip()
-                if not row or row.startswith(":"):
-                    continue
-                if row.startswith("data:"):
-                    row = row[5:].strip()
-                if row == "[DONE]":
-                    break
-                try:
-                    event = json.loads(row)
-                except ValueError:
-                    continue
-                piece = _openai_piece(event)
-                if piece:
-                    yield piece
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", "replace")[:1000]
-        raise RuntimeError(f"LocalAI returned HTTP {exc.code}: {detail or exc.reason}") from exc
-    except urllib.error.URLError as exc:
-        raise RuntimeError(f"Cannot reach LocalAI at {LOCALAI_BASE_URL}. Verify that LocalAI is running. {exc.reason}") from exc
-
-
-def _ollama_stream(model, messages):
-    payload = json.dumps({"model": model, "messages": messages, "stream": True}).encode("utf-8")
-    request = urllib.request.Request(OLLAMA_BASE_URL + "/api/chat", data=payload, headers={"Content-Type": "application/json"}, method="POST")
-    try:
-        with urllib.request.urlopen(request, timeout=180) as response:
-            for line in response:
-                if not line.strip():
-                    continue
-                try:
-                    event = json.loads(line.decode("utf-8", "replace"))
-                    piece = (event.get("message") or {}).get("content", "")
-                    if piece:
-                        yield piece
-                except (ValueError, AttributeError):
-                    continue
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", "replace")[:1000]
-        raise RuntimeError(f"Ollama returned HTTP {exc.code}: {detail or exc.reason}") from exc
-    except urllib.error.URLError as exc:
-        raise RuntimeError(f"Cannot reach Ollama at {OLLAMA_BASE_URL}: {exc.reason}") from exc
+        request = urllib.request.Request(OLLAMA_BASE_URL + "/api/tags", headers={"Accept": "application/json"})
+        with urllib.request.urlopen(request, timeout=3) as response:
+            if response.status != 200:
+                return False
+            payload = json.loads(response.read().decode("utf-8", "replace"))
+            return isinstance(payload, dict)
+    except Exception:
+        return False
 
 
 def ollama_stream(model, messages):
-    provider, models = active_provider_models(refresh=True)
-    available = [x["id"] for x in models]
-    selected = model if model in available else _chosen_model(model)
-    if not selected:
-        raise RuntimeError("No chat model is available. Install a chat model through LocalAI's model gallery.")
-    if provider == "localai":
-        yield from _localai_stream(selected, messages)
-    else:
-        yield from _ollama_stream(selected, messages)
+    payload = json.dumps({"model": model or ANGEL_DEFAULT_MODEL, "messages": messages, "stream": True}).encode()
+    request = urllib.request.Request(OLLAMA_BASE_URL + "/api/chat", data=payload, headers={"Content-Type":"application/json"})
+    with urllib.request.urlopen(request, timeout=180) as response:
+        for line in response:
+            if not line.strip():
+                continue
+            try:
+                data = json.loads(line.decode())
+                piece = data.get("message", {}).get("content", "")
+                if piece:
+                    yield piece
+            except Exception:
+                continue
 
 
 
@@ -1302,11 +1168,10 @@ def execute_pending_approved():
 
 def capability_report():
     github_state = "Authenticated" if _UNLOCKED_GITHUB_TOKEN else "Locked / not configured"
-    provider, available_models = active_provider_models()
-    model_state = f"{provider} available ({len(available_models)} models)" if available_models else f"{CONFIGURED_PROVIDER} connected with no chat models installed"
+    ollama_state = "Available" if ollama_available() else "Unavailable"
     return (
         "LIVE ANGEL CAPABILITIES: "
-        f"Model provider={model_state}; Ollama fallback={'enabled' if OLLAMA_FALLBACK_ENABLED else 'disabled'}; GitHub API={github_state}; "
+        f"Ollama={ollama_state}; GitHub API={github_state}; "
         "GitHub read operations=available when authenticated; "
         "system changes=approval required; credentials=encrypted and hidden."
     )
@@ -1376,9 +1241,7 @@ def fallback(message):
         return tool_inventory()
     if any(word in lower for word in ("build", "project")):
         return "I can prepare a project workspace and package a ZIP. Windows EXE compilation must run on Windows with PyInstaller."
-    return ("LocalAI/Ollama model provider is currently in offline mode because no chat-capable model is available. "
-            "Open LocalAI's model gallery and install a chat model, then refresh Angel. "
-            "Angel's deterministic date/time route, live weather lookup, saved conversation history, and indexed knowledge remain available where applicable.")
+    return "Ollama is unavailable, so I am in offline mode. I can still inspect the local workspace, review module definitions, and provide safe guidance."
 
 
 def tool_inventory():
@@ -1817,9 +1680,7 @@ class Handler(BaseHTTPRequestHandler):
             skills = capability_inventory() or []
             skill_names = [str(x.get("name") or x.get("id") or "Skill") for x in skills]
             tools = []
-            active_provider, active_models = active_provider_models()
-            online = bool(active_models)
-            active_model = _chosen_model()
+            online = bool(ollama_available())
             return self.send_json({
                 "project": project,
                 "conversation": conversation,
@@ -1833,33 +1694,21 @@ class Handler(BaseHTTPRequestHandler):
                 "skills": skill_names,
                 "tools": tools,
                 "model": {
-                    "backend": active_provider.upper() if online else "No model installed",
-                    "name": active_model or "No model installed",
-                    "context": "Provider configured",
+                    "backend": "LocalAI/Ollama" if online else "Offline",
+                    "name": ANGEL_DEFAULT_MODEL,
+                    "context": "8K context",
                     "connected": online,
                 },
                 "retrieval_scope": "Project Knowledge" if project else "Indexed Knowledge",
             })
-        if self.path == "/api/models":
-            provider, available_models = active_provider_models()
-            return self.send_json({
-                "provider": provider,
-                "configured_provider": CONFIGURED_PROVIDER,
-                "models": available_models,
-                "default_model": _chosen_model(),
-                "ollama_fallback_enabled": OLLAMA_FALLBACK_ENABLED,
-            })
         if self.path == "/api/status":
-            provider, available_models = active_provider_models()
             return self.send_json({
-                "ollama": bool(available_models),
-                "provider": provider,
+                "ollama": ollama_available(),
                 "platform": platform.system(),
                 "modules": 0,
                 "history_count": int(_DATABASE.stats().get("messages", 0)),
-                "model_name": _chosen_model() or "No model installed",
-                "models_available": len(available_models),
-                "context_capacity": "Configured model context",
+                "model_name": ANGEL_DEFAULT_MODEL,
+                "context_capacity": "8K context",
             })
         if self.path == "/api/modules":
             return self.send_json({"error":"Module integrations are not included in this build."}, 404)
@@ -2147,7 +1996,7 @@ class Handler(BaseHTTPRequestHandler):
             try:
                 existing_conversation = _DATABASE.get_conversation(conversation_id) if conversation_id else None
                 conversation_id = ensure_conversation(conversation_id, _conversation_title_from_message(message))
-                model = _chosen_model(data.get("model")) or str(data.get("model") or "")
+                model = data.get("model", ANGEL_DEFAULT_MODEL)
                 # Conversation ownership is authoritative. A selected workspace/project
                 # in the browser must never silently rewrite an existing conversation.
                 # A new conversation is global unless the conversation was explicitly
@@ -2409,17 +2258,8 @@ class Handler(BaseHTTPRequestHandler):
                     else:
                         response_route = "ebr_validated" if (ENABLE_PROVENANCE_V1 and ebr_result and ebr_result.status == "HIT_VALIDATED") else "llm_generated"
                         model_invoked = bool(ollama_available())
-                        model_name = str(_chosen_model(model)) if model_invoked else None
-                        # Retain deterministic phrase recall when no LLM is installed.
-                        if conversation_recall:
-                            phrase_recall = _CONVERSATION_INTELLIGENCE.deterministic_phrase_recall(message, history)
-                        else:
-                            phrase_recall = None
-                        if phrase_recall is not None:
-                            response_route = "tool_generated"
-                            pieces = iter([phrase_recall])
-                        else:
-                            pieces = ollama_stream(model_name, prompt_messages) if model_invoked else iter([fallback(message)])
+                        model_name = str(model) if model_invoked else None
+                        pieces = ollama_stream(model, prompt_messages) if model_invoked else iter([fallback(message)])
                 output = ""
                 for piece in pieces:
                     output += piece
@@ -2473,7 +2313,7 @@ class Handler(BaseHTTPRequestHandler):
                     _DATABASE.update_conversation_title(conversation_id, _conversation_title_from_message(message))
                 log_activity("Angel AI response completed")
             except Exception as exc:
-                raw = ("Model-provider error: " + str(exc) + "\n" + fallback(message)).encode()
+                raw = ("Ollama error: " + str(exc) + "\n" + fallback(message)).encode()
                 self.wfile.write(f"{len(raw):X}\r\n".encode() + raw + b"\r\n")
                 self.wfile.flush()
             self.wfile.write(b"0\r\n\r\n")
@@ -2484,7 +2324,8 @@ class Handler(BaseHTTPRequestHandler):
         return
 
 
-def run(host=None, port=None):
-    bind_host = host or os.getenv("ANGEL_HOST", "127.0.0.1")
-    bind_port = int(port or os.getenv("ANGEL_PORT", "8765"))
-    return ThreadingHTTPServer((bind_host, bind_port), Handler)
+def run(host="127.0.0.1", port=8765):
+    return ThreadingHTTPServer((host, port), Handler)
+
+
+

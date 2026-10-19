@@ -1,2 +1,2 @@
-Set-Location $PSScriptRoot
+﻿Set-Location $PSScriptRoot
 python .\run_angel_4_2.py

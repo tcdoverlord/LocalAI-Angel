@@ -430,3 +430,4 @@ Explain the reason behind each step in accessible language. Distinguish observed
 
 ### Teaching note
 Explain the reason behind each step in accessible language. Distinguish observed facts, retrieved sources, hypotheses, and recommendations. Never convert an unverified plan into a claim of completion.
+

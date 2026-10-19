@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 
@@ -25,7 +24,7 @@ def test_history_append_is_serialized():
 
 def test_modules_use_user_owned_storage():
     server = (ROOT / "angel_platform" / "webui" / "server.py").read_text(encoding="utf-8")
-    assert 'USER_DATA = Path(os.getenv("ANGEL_DATA_DIR", str(Path.home() / "Angel_Platform"))).expanduser()' in server
+    assert 'USER_DATA = Path.home() / "Angel_Platform"' in server
     assert 'MODULES_DIR = USER_DATA / "modules"' in server
     assert 'GITHUB_MODULES_DIR = MODULES_DIR / "github_modules"' in server
     assert 'MODULES_DIR = PROJECT / "modules"' not in server
