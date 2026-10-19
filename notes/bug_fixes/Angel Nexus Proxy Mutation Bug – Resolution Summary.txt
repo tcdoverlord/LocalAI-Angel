@@ -1,0 +1,135 @@
+Angel Nexus Proxy Mutation Bug – Resolution Summary
+Issue
+
+Angel Nexus catalog operations worked through the LocalAI proxy, but mutation operations failed:
+
+Operation	Direct Nexus (:8877)	Through LocalAI Proxy (:8080)GET /api/modules	✅	✅
+POST /api/modules/install	✅	❌ 404 Module not found
+POST /api/modules/add	✅	❌ 400 Bad Request
+
+The browser, React frontend, and Nexus service were initially suspected.
+
+Root Cause
+
+The issue was isolated to the LocalAI proxy implementation in:
+
+core/http/routes/angel_nexus.go
+
+
+Diagnostic logging showed:
+
+Incoming request:
+Content-Length = 45
+
+Outgoing proxied request:
+Content-Length = 0
+
+
+The proxy created the upstream request using:
+
+http.NewRequestWithContext(
+    ctx,
+    c.Request().Method,
+    targetURL,
+    c.Request().Body,
+)
+
+
+but did not preserve the original request body's content length.
+
+As a result, Angel Nexus received POST requests with an effectively empty body and failed module lookup/validation.
+
+Fix
+
+Added explicit content-length preservation:
+
+// Preserve the incoming request body's known length. NewRequestWithContext
+// cannot infer it from the incoming io.ReadCloser.
+req.ContentLength = c.Request().ContentLength
+
+Verification
+
+After rebuilding and redeploying:
+
+Proxy Install Test
+POST /api/angel-nexus/api/modules/install
+
+
+Result:
+
+200 OK
+Repository installed successfully
+
+Proxy Add Repository Test
+POST /api/angel-nexus/api/modules/add
+
+
+Result:
+
+201 Created
+Repository added to the registry
+
+Runtime Diagnostics
+
+Before:
+
+incoming content_length=45
+outgoing content_length=0
+
+
+After:
+
+incoming content_length=45
+outgoing content_length=45
+
+Additional Findings
+CSP Issue Resolved
+
+Frontend changed from:
+
+http://localhost:8877
+
+
+to:
+
+/api/angel-nexus
+
+
+which eliminated browser CSP violations and restored same-origin communication.
+
+searchAnalyzer.js Error
+
+Identified as unrelated:
+
+chrome-extension://cfnpidifppmenkapgihekkeednfoenal/
+
+
+Source:
+
+Bitdefender TrafficLight browser extension
+
+
+No LocalAI or Angel Nexus code changes were required.
+
+Final System State
+Angel Nexus UI                 ✅
+Module Catalog                ✅
+LocalAI → Nexus Proxy         ✅
+POST Body Forwarding          ✅
+Repository Install            ✅
+Repository Add                ✅
+Docker Networking             ✅
+Nexus Health                  ✅
+Same-Origin Architecture      ✅
+CSP Compliance                ✅
+
+Permanent Change Retained
+req.ContentLength = c.Request().ContentLength
+
+Temporary Diagnostics Removed
+fmt.Printf(...)
+
+
+Diagnostic logging was removed after validation, while backup files were preserved for rollback/reference.
+
+Status: RESOLVED ✅
