@@ -195,7 +195,7 @@ GIFs animate automatically. For playback controls such as pause, resume, and see
   </a>
 </p>
 
-[Open Install / Repair GIF](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-install.gif)
+[Open Start Angel GIF](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-install.gif)
 
 ### Start Angel
 
