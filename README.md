@@ -204,8 +204,6 @@ Watch LocalAI-Angel start using the Control Center.
   >
 </p>
 
-[Open the Start Angel animation](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-start.gif).
-
 ### Stop Angel
 
 <!-- GIF PLACEHOLDER: Save the ScreenToGif recording as docs/images/angel-stop.gif, then replace this placeholder with:
