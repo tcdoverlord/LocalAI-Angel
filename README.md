@@ -194,12 +194,17 @@ The following short recordings demonstrate the three main actions in the LocalAI
 
 ### Start Angel
 
-<!-- GIF PLACEHOLDER: Save the ScreenToGif recording as docs/images/angel-start.gif, then replace this placeholder with:
-![LocalAI-Angel Start demonstration](docs/images/angel-start.gif)
--->
+Watch LocalAI-Angel start using the Control Center.
 
-> **[START ANGEL GIF PLACEHOLDER]**  
-> *Coming soon — the startup walkthrough will appear here.*
+<p align="center">
+  <img
+    src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/angel-start.gif"
+    alt="Animated demonstration of starting LocalAI-Angel"
+    width="800"
+  >
+</p>
+
+[Open the Start Angel animation](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/angel-start.gif).
 
 ### Stop Angel
 
