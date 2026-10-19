@@ -1,27 +1,33 @@
 @echo off
 setlocal EnableExtensions
 chcp 65001 >nul
-set "REPO=%~dp0"
-set "COMPOSE=docker compose -f docker-compose.yaml -f docker-compose.nexus.override.yaml"
-title LocalAI Angel - Stop
-cd /d "%REPO%" || goto error
-where docker >nul 2>&1 || goto no_docker
+title LocalAI-Angel - Stop Full Stack
+color 0E
+cd /d "%~dp0" || (echo ERROR: Could not enter the LocalAI-Angel folder.& pause & exit /b 1)
+set "COMPOSE=docker compose -f docker-compose.yaml -f docker-compose.nexus.override.yaml -f docker-compose.angel-harness.yaml"
 
-echo Stopping LocalAI Angel without deleting containers, models, or Nexus data...
-%COMPOSE% stop
-if errorlevel 1 goto error
-
+echo ============================================================
+echo             LOCALAI-ANGEL - STOP ALL
+echo ============================================================
+echo This stops the configured services without deleting containers,
+echo downloaded model volumes, or persistent Angel/Nexus data.
 echo.
-echo LocalAI Angel has stopped. Persistent data was preserved.
+for %%F in (docker-compose.yaml docker-compose.nexus.override.yaml docker-compose.angel-harness.yaml) do (
+    if not exist "%%F" (echo ERROR: Missing required file: %%F& pause& exit /b 1)
+)
+where docker >nul 2>&1 || (echo ERROR: Docker CLI not found.& pause & exit /b 1)
+docker info >nul 2>&1 || (echo ERROR: Docker engine is not running. Start Docker Desktop and retry.& pause & exit /b 1)
+%COMPOSE% stop
+if errorlevel 1 (
+    echo ERROR: One or more services could not be stopped.
+    %COMPOSE% ps -a
+    pause
+    exit /b 1
+)
+echo.
+echo Full LocalAI-Angel stack stopped. Persistent data and model volumes were preserved.
+echo.
+%COMPOSE% ps -a
+echo.
 pause
 exit /b 0
-
-:no_docker
-echo ERROR: Docker is not available in PATH.
-pause
-exit /b 1
-
-:error
-echo ERROR: The stack could not be stopped. Run DIAGNOSE_ANGEL.bat.
-pause
-exit /b 1
