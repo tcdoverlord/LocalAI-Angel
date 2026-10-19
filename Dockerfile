@@ -342,7 +342,7 @@ COPY ./Makefile .
 COPY ./backend ./backend
 COPY ./go.mod .
 COPY ./go.sum .
-COPY ./.git ./.git
+# Git metadata is optional in a source archive; Makefile uses a safe dev/unknown fallback.
 
 # Some of the Go backends use libs from the main src, we could further optimize the caching by building the CPP backends before here
 COPY ./pkg/grpc ./pkg/grpc

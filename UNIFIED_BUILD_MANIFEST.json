@@ -1,0 +1,31 @@
+{
+  "product": "LocalAI-Angel Unified",
+  "version": "0.3.0",
+  "architecture": {
+    "inference": "LocalAI",
+    "workspace": "Angel AI Harness",
+    "orchestration": "Angel Nexus"
+  },
+  "provider_default": "localai",
+  "persistent_data_default": "%USERPROFILE%/Angel_Platform",
+  "bundled_knowledge_packs": [
+    "angel-k12-core"
+  ],
+  "advanced_capabilities": [
+    "date-time",
+    "open-meteo-weather",
+    "sqlite-conversations",
+    "conversation-summaries",
+    "knowledge-retrieval",
+    "evidence-backed-reasoning",
+    "approval-gated-execution",
+    "read-aloud-ui",
+    "nexus-module-runner"
+  ],
+  "status": "source integration package; compose YAML and Harness provider/weather/knowledge/history tests validated; full Docker startup and live inference must be verified on target hardware",
+  "default_model": {
+    "name": "qwen2.5:3b",
+    "provisioning": "automatic first-launch download into persistent Ollama volume",
+    "fallback": "used by Angel when LocalAI has no chat model"
+  }
+}
