@@ -179,20 +179,22 @@ Click **STOP ANGEL** to run `STOP_ANGEL.bat`. This stops the configured services
 - **First-time setup or repair:** use **INSTALL / REPAIR**.
 - Keep Docker Desktop running while installing or starting the stack.
 
-## Control Center Video Guides
-
-These recordings demonstrate the three main actions in the LocalAI-Angel Control Center.
-
-GIFs animate automatically. For playback controls such as pause, resume, and seeking, use an MP4 video hosted on a page that supports video controls.
-
 
 ## Control Center Video Guides
 
-Choose a guide below to see how to use the LocalAI-Angel Control Center.
-The videos are collapsed by default to keep this README clean.
+Choose a guide below to see how to use the LocalAI-Angel Control Center. The videos are collapsed by default to keep this README clean.
+
+<p align="center">
+  <a href="https://github.com/tcdoverlord/LocalAI-Angel/blob/main/docs/images/NeonLocalAIAngel%20TutorialBanner.png">
+    <img
+      src="https://raw.githubusercontent.com/tcdoverlord/LocalAI-Angel/main/docs/images/NeonLocalAIAngel%20TutorialBanner.png"
+      alt="Watch the LocalAI-Angel tutorial videos: Install, Start, and Stop Angel"
+      width="100%">
+  </a>
+</p>
 
 <details>
-<summary>1. Install / Repair Angel</summary>
+<summary>▶️ 1. Install / Repair Angel</summary>
 
 Use this option for first-time setup or to repair the installation.
 
@@ -206,7 +208,7 @@ Use this option for first-time setup or to repair the installation.
 </details>
 
 <details>
-<summary>2. Start Angel</summary>
+<summary>▶️ 2. Start Angel</summary>
 
 Use this option to start your installed LocalAI-Angel services.
 
@@ -220,7 +222,7 @@ Use this option to start your installed LocalAI-Angel services.
 </details>
 
 <details>
-<summary>3. Stop Angel</summary>
+<summary>▶️ 3. Stop Angel</summary>
 
 Use this option to stop the running LocalAI-Angel services.
 
@@ -232,7 +234,6 @@ Use this option to stop the running LocalAI-Angel services.
 </p>
 
 </details>
-
 
 ---
 
