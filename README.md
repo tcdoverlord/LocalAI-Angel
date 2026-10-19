@@ -33,6 +33,7 @@
 - [Features and Capabilities](#features-and-capabilities)
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
+- [Control Center Video Guides](#control-center-video-guides)
 - [Local Services](#local-services)
 - [Models and Inference](#models-and-inference)
 - [Persistent Data](#persistent-data)
@@ -52,7 +53,7 @@ LocalAI-Angel is an evolving AI engineering project built around three connected
 2. **LocalAI** — the inference and API layer for supported AI models and services.
 3. **Angel Nexus** — a modular tools and integration environment.
 
-The unified launcher coordinates the project's Docker services and Angel Harness runtime, provisions the default model on first launch, and provides local URLs for the available interfaces.
+The Windows Control Center provides buttons for Install / Repair, Start Angel, and Stop Angel. These actions launch the project's corresponding batch scripts, which manage the configured Docker services and Angel Harness runtime.
 
 The goal is to create a practical foundation for local AI experimentation, assistant workflows, modular integrations, and future capabilities.
 
@@ -61,8 +62,6 @@ This is an actively evolving project. Features may vary by build, hardware, conf
 ## Architecture
 
 The project separates the assistant experience from the model-serving infrastructure and the tools that extend it.
-
-**[View the architecture graphic](https://github.com/tcdoverlord/LocalAI-Angel/blob/main/assets/LocalAI-Angel%20Architecture%20Overview.png)**
 
 | Layer | Purpose |
 |---|---|
@@ -102,7 +101,7 @@ Available modules and actions depend on the current repository implementation. R
 
 ### Unified startup
 
-The supplied Windows launcher coordinates the configured services and starts the environment through Docker Compose.
+The Windows Control Center launches the supplied batch scripts, which coordinate the configured services through Docker Compose.
 
 ### Local model provisioning
 
@@ -114,7 +113,7 @@ The launcher reports the local addresses for Angel Home Base, LocalAI, Nexus, an
 
 ### Persistent application data
 
-The launcher configures a persistent data location for supported chat, memory, and knowledge data. Existing SQLite history is detected by the startup script, which asks for confirmation before continuing.
+The Angel Harness configures a persistent data location for supported chat, memory, and knowledge data. Existing SQLite history is detected by the startup script, which asks for confirmation before continuing.
 
 ### Modular architecture
 
@@ -122,7 +121,7 @@ Separating the assistant, inference services, and integrations provides a founda
 
 ### Engineering and troubleshooting
 
-The project uses Docker Compose to coordinate its services and includes launcher-level checks for Docker availability and startup errors.
+The project uses Docker Compose to coordinate its services. The Install / Repair script checks prerequisites, builds the configured images, starts the stack, and reports startup errors.
 
 **Implementation note:** These capabilities describe the configured project architecture and launcher behavior. Individual features, APIs, memory functions, and integrations should be tested against the current build before being described as fully implemented or production-ready.
 
@@ -147,76 +146,83 @@ Actual performance depends on your processor, memory, storage, model, and availa
 
 ## Quick Start
 
-### 1. Obtain the repository
+### Requirements
 
-Clone the project or download its files from:
+- Windows with Docker Desktop installed and running.
+- Docker Compose available through the Docker CLI.
+- Internet access for initial image builds, source downloads, and model provisioning.
+- Enough disk space, memory, and compute resources for the configured services and model.
 
-**https://github.com/tcdoverlord/LocalAI-Angel**
+### 1. Get the project
 
-If you already have the repository locally, open PowerShell in the project folder.
+Clone the repository or download it from **https://github.com/tcdoverlord/LocalAI-Angel**. Keep the Control Center executable and its batch scripts in the repository folder so the buttons can find the scripts.
 
-### 2. Start Docker Desktop
+### 2. Run Install / Repair
 
-Open Docker Desktop and wait until the Docker engine is ready.
+Open `AngelControlCenter.exe` and click **INSTALL / REPAIR**. This runs `INSTALL_ANGEL_V1.0.0.bat`, which is intended for both first-time setup and subsequent repair runs. Follow the console output and wait for the endpoint checks to finish.
 
-Verify the CLI is available:
+You can also run the installer directly from PowerShell or File Explorer by launching `INSTALL_ANGEL_V1.0.0.bat` from the repository folder.
 
-```powershell
-docker version
-docker compose version
-```
+### 3. Start Angel
 
-Both commands should complete successfully.
+After installation completes, click **START ANGEL** in the Control Center. This launches `START_ANGEL.bat` to start the Compose stack. Wait for the services to initialize, then open Angel Home Base at:
 
-### 3. Run the unified launcher
+**http://127.0.0.1:8765/**
 
-From the project directory, execute:
+### 4. Stop Angel
 
-```powershell
-.\START_ANGEL_UNIFIED.bat
-```
+Click **STOP ANGEL** to run `STOP_ANGEL.bat`. This stops the configured services without intentionally deleting persistent data or model volumes.
 
-The launcher checks for Docker, creates `.env` from `.env.example` when needed, configures the persistent data location, and starts the configured Docker Compose services.
+### Repeat use
 
-It also provisions the default model on first launch.
+- **Everyday use:** use **START ANGEL** and **STOP ANGEL**.
+- **First-time setup or repair:** use **INSTALL / REPAIR**.
+- Keep Docker Desktop running while installing or starting the stack.
 
-**Important:** The first launch can take a while. The model download and LocalAI build may take several minutes or longer, depending on your connection and hardware. Keep Docker Desktop running while the services initialize.
+## Control Center Video Guides
 
-### 4. Open Angel Home Base
+The following short recordings demonstrate the three main actions in the LocalAI-Angel Control Center. Save the GIFs in `docs/images/` using these filenames, then commit them with this README:
 
-When startup completes, the launcher reports the available local interfaces and opens Angel Home Base in your browser.
+### Install / Repair
 
-The default address is:
+<!-- GIF PLACEHOLDER: Save the ScreenToGif recording as docs/images/angel-install.gif, then replace this placeholder with:
+![LocalAI-Angel Install and Repair demonstration](docs/images/angel-install.gif)
+-->
 
-**http://127.0.0.1:8765**
+> **[INSTALL / REPAIR GIF PLACEHOLDER]**  
+> *Coming soon — the installation and repair walkthrough will appear here.*
 
-### 5. Explore the other interfaces
+### Start Angel
 
-Use the local service addresses listed in the [Local Services](#local-services) section to explore the configured interfaces.
+<!-- GIF PLACEHOLDER: Save the ScreenToGif recording as docs/images/angel-start.gif, then replace this placeholder with:
+![LocalAI-Angel Start demonstration](docs/images/angel-start.gif)
+-->
 
-If a service does not respond immediately, allow time for initialization and inspect the terminal output before restarting the entire stack.
+> **[START ANGEL GIF PLACEHOLDER]**  
+> *Coming soon — the startup walkthrough will appear here.*
 
-### Subsequent launches
+### Stop Angel
 
-After the first successful setup, run the same launcher again:
+<!-- GIF PLACEHOLDER: Save the ScreenToGif recording as docs/images/angel-stop.gif, then replace this placeholder with:
+![LocalAI-Angel Stop demonstration](docs/images/angel-stop.gif)
+-->
 
-```powershell
-.\START_ANGEL_UNIFIED.bat
-```
+> **[STOP ANGEL GIF PLACEHOLDER]**  
+> *Coming soon — the shutdown walkthrough will appear here.*
 
-Docker can reuse downloaded images and existing model data, although containers may still rebuild when the project configuration or source changes.
+When each recording is ready, save it under `docs/images/` with the filename shown in its placeholder comment, then replace the visible placeholder with the image Markdown. If a recording is very large, optimize it or use a short GIF preview linking to a full MP4 tutorial.
 
 ---
 
 ## Local Services
 
-The unified launcher currently reports these default addresses:
+The current local stack uses these default addresses:
 
 | Component | Local URL | Purpose |
 |---|---|---|
 | Angel Home Base | [http://127.0.0.1:8765](http://127.0.0.1:8765) | Main Angel interface |
 | LocalAI | [http://127.0.0.1:8080](http://127.0.0.1:8080) | LocalAI model gallery and API |
-| Angel Nexus | [http://127.0.0.1:8080/app/angel-nexus](http://127.0.0.1:8080/app/angel-nexus) | Configured Nexus interface |
+| Angel Nexus | [http://127.0.0.1:8877/](http://127.0.0.1:8877/) | Modular tools and integration interface |
 | Engineering/RAG API | [http://127.0.0.1:8780](http://127.0.0.1:8780) | Engineering and retrieval API |
 
 These are the launcher's configured defaults. A reachable URL does not necessarily mean every feature behind that interface is operational.
@@ -227,7 +233,7 @@ The interfaces use loopback addresses, so they are intended for access from the 
 
 ### Default model
 
-The current unified launcher sets:
+The current model configuration sets:
 
 ```text
 ANGEL_DEFAULT_MODEL=qwen2.5:3b
@@ -261,7 +267,7 @@ Start with the configured default model before changing model settings. If you s
 
 ## Persistent Data
 
-The launcher reports the persistent data location and configures the default user data path under:
+The startup configuration reports the persistent data location and configures the default user data path under:
 
 ```text
 %USERPROFILE%\Angel_Platform
@@ -283,7 +289,7 @@ If you are unsure whether the existing data is compatible, cancel startup and ma
 
 ### Docker is unavailable
 
-If the launcher reports that Docker is missing or the engine is unavailable:
+If Install / Repair or Start Angel reports that Docker is missing or the engine is unavailable:
 
 1. Start Docker Desktop.
 2. Wait until the engine finishes starting.
@@ -344,7 +350,7 @@ To stop the stack without deleting containers, models, or Nexus data, use the su
 .\STOP_ANGEL.bat
 ```
 
-The script runs the configured Docker Compose `stop` operation. It is intended to stop services while preserving persistent data.
+The script runs the configured Docker Compose stop operation. It is intended to stop services while preserving persistent data.
 
 If the startup process fails, retain the terminal output and relevant logs when reporting the issue.
 
