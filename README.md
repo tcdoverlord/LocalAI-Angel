@@ -129,7 +129,7 @@ The project uses Docker Compose to coordinate its services. The Install / Repair
 
 ## Requirements
 
-The unified launcher is a Windows batch file and uses Docker Compose.
+The unified launcher is a Windows batch file and uses Docker Compose. Docker desktop or docker have to be running before installation.
 
 Before starting, prepare the following:
 
@@ -144,21 +144,55 @@ The default model download is several gigabytes. The first LocalAI source build 
 
 Actual performance depends on your processor, memory, storage, model, and available hardware acceleration.
 
-
 ## Quick Start
 
-### Requirements
+## Requirements
 
-- Windows with Docker Desktop installed and running.
+The unified launcher is a Windows batch file and uses Docker Compose.
+
+<div align="center">
+
+<h2>🚨 IMPORTANT — REQUIRED BEFORE INSTALLATION 🚨</h2>
+
+<p><strong>Docker Desktop or Docker Engine MUST be installed and running before installation begins.</strong></p>
+
+<p>Keep Docker running throughout installation while LocalAI-Angel downloads, builds, and configures its services.</p>
+
+</div>
+
+Before starting, prepare the following:
+
+- A supported Windows environment.
+- Docker Desktop or Docker Engine installed and running before you begin installation.
 - Docker Compose available through the Docker CLI.
-- Internet access for initial image builds, source downloads, and model provisioning.
-- Enough disk space, memory, and compute resources for the configured services and model.
+- An internet connection for initial image, source, and model downloads.
+- Sufficient free disk space for container images, the LocalAI build, model files, and persistent application data.
+- Enough available memory and compute resources for the selected model and services.
+
+The default model download is several gigabytes. The first LocalAI source build can also require substantial disk space and time.
+
+Actual performance depends on your processor, memory, storage, model, and available hardware acceleration.
+
+**Before proceeding:**
+
+1. Install Docker Desktop if it is not already installed.
+2. Launch Docker Desktop.
+3. Wait until Docker Desktop reports that its engine is running.
+4. Verify Docker is available by opening PowerShell and running:
+
+   ```powershell
+   docker version
+   ```
+
+   Confirm the command displays both client and server information before continuing.
+
+Do not run Install / Repair until Docker Desktop is installed and its engine is running.
 
 ### 1. Get the project
 
 Clone the repository or download it from **https://github.com/tcdoverlord/LocalAI-Angel**.
 
-After downloading, open the project folder. The Control Center executable is located inside the `dist` directory:
+The Control Center executable is located in the `dist` folder. The batch scripts must remain in the repository root.
 
 ```text
 LocalAI-Angel/
@@ -170,7 +204,7 @@ LocalAI-Angel/
 └── docker-compose.yaml
 ```
 
-Keep the `dist` folder and the batch scripts in their original locations so the Control Center can find and run the scripts correctly.
+Keep the `dist` folder and batch scripts in their expected locations so the Control Center can locate and run the scripts.
 
 ### 2. Run Install / Repair
 
@@ -178,15 +212,15 @@ Open the project's `dist` folder and double-click:
 
 `AngelControlCenter.exe`
 
-In the Control Center, click **INSTALL / REPAIR**. This runs `INSTALL_ANGEL_V1.0.0.bat` to perform the initial setup or repair the existing installation.
+Click **INSTALL / REPAIR** in the Control Center. This runs `INSTALL_ANGEL_V1.0.0.bat` to perform the initial setup or repair the existing installation.
 
-Follow the console output and wait for the setup and endpoint checks to finish.
+Follow the console output and wait for setup and endpoint checks to finish. The first installation may take time while images, source code, and models are downloaded or built.
 
 You can also run `INSTALL_ANGEL_V1.0.0.bat` directly from the repository root.
 
 ### 3. Start Angel
 
-After installation completes, return to the Control Center and click **START ANGEL**.
+Ensure Docker Desktop is still running. In the Control Center, click **START ANGEL**.
 
 This launches `START_ANGEL.bat` to start the configured Docker Compose services. Wait for the services to initialize, then open Angel Home Base:
 
@@ -200,9 +234,9 @@ This runs `STOP_ANGEL.bat` to stop the configured services without intentionally
 
 ### Repeat use
 
-- **Everyday use:** Open `dist\AngelControlCenter.exe` and use **START ANGEL** and **STOP ANGEL**.
-- **First-time setup or repair:** Open the Control Center and select **INSTALL / REPAIR**.
-- **Keep Docker Desktop running** while installing or starting the stack.
+- **Everyday use:** Keep Docker Desktop running, open `dist\AngelControlCenter.exe`, and use **START ANGEL** and **STOP ANGEL**.
+- **First-time setup or repair:** Start Docker Desktop first, then use **INSTALL / REPAIR**.
+- **If Docker Desktop is stopped:** Start it and wait for the engine to become ready before using the Control Center.
 - **Do not move the executable or batch scripts** from their expected project locations.
 
 ## Control Center Video Guides
