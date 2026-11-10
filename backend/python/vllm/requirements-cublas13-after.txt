@@ -7,4 +7,4 @@
 # VERSION COUPLING: darwin/Apple-Silicon builds use vllm-metal (see install.sh),
 # which pins this exact vLLM version. Bumping vllm here means coordinating with a
 # vllm-metal release that supports the new version, or macOS/Metal builds break.
-vllm==0.29.0
+vllm==0.30.0
